@@ -172,7 +172,7 @@ static dboolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
   if (player->ammo[ammo] > player->maxammo[ammo])
     player->ammo[ammo] = player->maxammo[ammo];
 
-  if (mbf21)
+  if (mbf21 && demoplayback)
     return P_GiveAmmoAutoSwitch(player, ammo, oldammo);
 
   // If non zero ammo, don't change up weapons, player was lower on purpose.
@@ -181,6 +181,9 @@ static dboolean P_GiveAmmo(player_t *player, ammotype_t ammo, int num)
 
   // We were down to zero, so select a new weapon.
   // Preferences are not user selectable.
+
+  if (!demoplayback) // (Rat)
+    return true;
 
   if (heretic) {
     if (player->readyweapon == wp_staff || player->readyweapon == wp_gauntlets)
@@ -250,7 +253,9 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
 
       P_GiveAmmo(player, weaponinfo[weapon].ammo, deathmatch ? 5 : 2);
 
-      player->pendingweapon = weapon;
+      if (demoplayback)
+        player->pendingweapon = weapon;
+
       /* cph 20028/10 - for old-school DM addicts, allow old behavior
        * where only consoleplayer's pickup sounds are heard */
       // displayplayer, not consoleplayer, for viewing multiplayer demos
@@ -274,7 +279,9 @@ dboolean P_GiveWeapon(player_t *player, weapontype_t weapon, dboolean dropped)
     {
       gaveweapon = true;
       player->weaponowned[weapon] = true;
-      player->pendingweapon = weapon;
+
+      if (demoplayback)
+        player->pendingweapon = weapon;
     }
   return gaveweapon || gaveammo;
 }
@@ -682,8 +689,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!P_GivePower (player, pw_strength))
         return;
       dsda_AddPlayerMessage(s_GOTBERSERK, player);
-      if (player->readyweapon != wp_fist)
+
+      if (player->readyweapon != wp_fist && demoplayback)
         player->pendingweapon = wp_fist;
+
       sound = sfx_getpow;
       break;
 
@@ -2395,7 +2404,10 @@ dboolean Heretic_P_GiveWeapon(player_t * player, weapontype_t weapon)
         player->bonuscount += BONUSADD;
         player->weaponowned[weapon] = true;
         P_GiveAmmo(player, wpnlev1info[weapon].ammo, GetWeaponAmmo[weapon]);
-        player->pendingweapon = weapon;
+
+        if (demoplayback)
+          player->pendingweapon = weapon;
+
         if (player == &players[consoleplayer])
         {
             S_StartVoidSound(heretic_sfx_wpnup);
@@ -2412,8 +2424,10 @@ dboolean Heretic_P_GiveWeapon(player_t * player, weapontype_t weapon)
     {
         gaveWeapon = true;
         player->weaponowned[weapon] = true;
-        if (WeaponValue[weapon] > WeaponValue[player->readyweapon])
-        {                       // Only switch to more powerful weapons
+
+        // Only switch to more powerful weapons
+        if (WeaponValue[weapon] > WeaponValue[player->readyweapon] && demoplayback)
+        {
             player->pendingweapon = weapon;
         }
     }
@@ -2940,7 +2954,10 @@ void TryPickupWeapon(player_t * player, pclass_t weaponClass,
         {
             P_GiveMana(player, MANA_2, 25);
         }
-        player->pendingweapon = weaponType;
+
+        if (demoplayback)
+          player->pendingweapon = weaponType;
+
         remove = false;
     }
     else
@@ -2961,9 +2978,12 @@ void TryPickupWeapon(player_t * player, pclass_t weaponClass,
         {
             gaveWeapon = true;
             player->weaponowned[weaponType] = true;
+
+            // Only switch to more powerful weapons
             if (weaponType > player->readyweapon)
-            {                   // Only switch to more powerful weapons
-                player->pendingweapon = weaponType;
+            {
+                if (demoplayback)
+                  player->pendingweapon = weaponType;
             }
         }
         if (!(gaveWeapon || gaveMana))
@@ -3099,7 +3119,9 @@ static void TryPickupWeaponPiece(player_t * player, pclass_t matchClass,
         {
             gaveWeapon = true;
             player->weaponowned[wp_fourth] = true;
-            player->pendingweapon = wp_fourth;
+
+            if (demoplayback)
+              player->pendingweapon = wp_fourth;
         }
     }
 

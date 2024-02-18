@@ -35,6 +35,7 @@
  *-----------------------------------------------------------------------------
  */
 
+#include "doomdef.h"
 #include <stdio.h>
 #include <stdarg.h>
 #include <stdlib.h>
@@ -501,7 +502,7 @@ void G_BuildTiccmd(ticcmd_t* cmd)
   int tspeed;
   int forward;
   int side;
-  int newweapon;                                          // phares
+  int newweapon; // phares
   dboolean strict_input;
 
   dsda_pclass_t *player_class = &pclass[players[consoleplayer].pclass];
@@ -847,7 +848,15 @@ void G_BuildTiccmd(ticcmd_t* cmd)
     {
       done_autoswitch = true;
       boom_weapon_state_injection = false;
-      newweapon = P_SwitchWeapon(&players[consoleplayer]);           // phares
+
+      if (demoplayback) // (Rat)
+      {
+        newweapon = P_SwitchWeapon(&players[consoleplayer]); // phares
+      }
+      else
+      {
+        newweapon = wp_nochange;
+      }
     }
     else
     {                                 // phares 02/26/98: Added gamemode checks
