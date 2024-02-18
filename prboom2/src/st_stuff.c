@@ -747,7 +747,7 @@ int st_palette = 0;
 static void ST_doPaletteStuff(void)
 {
   int         palette;
-  int cnt = dsda_PainPalette() ? plyr->damagecount : 0;
+  int cnt = dsda_PainPalette() ? plyr->damagecount / 3 : 0;
 
   if (dsda_PowerPalette() && plyr->powers[pw_strength])
     {
