@@ -628,4 +628,4 @@ function(AddGameExecutable TARGET SOURCES)
     )
 endfunction()
 
-AddGameExecutable(dsda-doom "${DSDA_SOURCES}")
+AddGameExecutable(rat-doom "${DSDA_SOURCES}")
