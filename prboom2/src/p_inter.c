@@ -527,14 +527,36 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTARMBONUS, player);
       break;
 
-    case SPR_SOUL:
+    case SPR_SOUL: {
+      int diff = (player->health - 200) + 100;
+
+      if (diff < 0)
+        diff = 0;
+
       player->health += P_PlayerHealthIncrease(soul_health);
       if (player->health > max_soul)
         player->health = max_soul;
       player->mo->health = player->health;
+
+      while (diff >= 25) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC11);
+        diff -= 25;
+      }
+
+      while (diff >= 10) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
+        diff -= 10;
+      }
+
+      while (diff >= 1) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+        diff -= 1;
+      }
+
       dsda_AddPlayerMessage(s_GOTSUPER, player);
       sound = sfx_getpow;
       break;
+    }
 
     case SPR_MEGA:
       if (gamemode != commercial)
@@ -602,22 +624,51 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       return;
 
       // medikits, heals
-    case SPR_STIM:
-      if (!P_GiveBody (player, 10))
+    case SPR_STIM: {
+      int diff = (player->health - 100) + 10;
+
+      if (diff < 0)
+        diff = 0;
+
+      if (!P_GiveBody(player, 10))
         return;
+
+      while (diff >= 1) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+        diff -= 1;
+      }
+
       dsda_AddPlayerMessage(s_GOTSTIM, player);
       break;
+    }
 
-    case SPR_MEDI:
-      if (!P_GiveBody (player, 25))
+    case SPR_MEDI: {
+      int diff = (player->health - 100) + 25;
+
+      if (diff < 0)
+        diff = 0;
+
+      if (!P_GiveBody(player, 25))
         return;
 
-      if (player->health < 50) // cph - 25 + the 25 just added, thanks to Quasar for reporting this bug
+      if (player->health <
+        50) // cph - 25 + the 25 just added, thanks to Quasar for reporting this bug
         dsda_AddPlayerMessage(s_GOTMEDINEED, player);
       else
         dsda_AddPlayerMessage(s_GOTMEDIKIT, player);
-      break;
 
+      while (diff >= 10) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
+        diff -= 10;
+      }
+
+      while (diff >= 1) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+        diff -= 1;
+      }
+
+      break;
+    }
 
       // power ups
     case SPR_PINV:
