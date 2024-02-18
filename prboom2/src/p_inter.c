@@ -679,11 +679,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTCLIP, player);
       break;
 
-    case SPR_AMMO:
-      if (!P_GiveAmmo (player, am_clip,5))
+    case SPR_AMMO: {
+      int c = clipammo[am_clip];
+      int diff = (player->ammo[am_clip] - player->maxammo[am_clip]) + (c * 5);
+      diff = MAX(diff, 0);
+
+      if (!P_GiveAmmo(player, am_clip, 5))
         return;
+
+      while (diff >= c) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_CLIP);
+        diff -= c;
+      }
+
       dsda_AddPlayerMessage(s_GOTCLIPBOX, player);
       break;
+    }
 
     case SPR_ROCK:
       if (!P_GiveAmmo (player, am_misl,1))
@@ -691,11 +702,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTROCKET, player);
       break;
 
-    case SPR_BROK:
-      if (!P_GiveAmmo (player, am_misl,5))
+    case SPR_BROK: {
+      int c = clipammo[am_misl];
+      int diff = (player->ammo[am_misl] - player->maxammo[am_misl]) + (c * 5);
+      diff = MAX(diff, 0);
+
+      if (!P_GiveAmmo(player, am_misl, 5))
         return;
+
+      while (diff >= c) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC18);
+        diff -= c;
+      }
+
       dsda_AddPlayerMessage(s_GOTROCKBOX, player);
       break;
+    }
 
     case SPR_CELL:
       if (!P_GiveAmmo (player, am_cell,1))
@@ -703,11 +725,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTCELL, player);
       break;
 
-    case SPR_CELP:
-      if (!P_GiveAmmo (player, am_cell,5))
+    case SPR_CELP: {
+      int c = clipammo[am_cell];
+      int diff = (player->ammo[am_cell] - player->maxammo[am_cell]) + (c * 5);
+      diff = MAX(diff, 0);
+
+      if (!P_GiveAmmo(player, am_cell, 5))
         return;
+
+      while (diff >= c) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+        diff -= c;
+      }
+
       dsda_AddPlayerMessage(s_GOTCELLBOX, player);
       break;
+    }
 
     case SPR_SHEL:
       if (!P_GiveAmmo (player, am_shell,1))
@@ -715,11 +748,22 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTSHELLS, player);
       break;
 
-    case SPR_SBOX:
-      if (!P_GiveAmmo (player, am_shell,5))
+    case SPR_SBOX: {
+      int c = clipammo[am_shell];
+      int diff = (player->ammo[am_shell] - player->maxammo[am_shell]) + (c * 5);
+      diff = MAX(diff, 0);
+
+      if (!P_GiveAmmo(player, am_shell, 5))
         return;
+
+      while (diff >= c) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC22);
+        diff -= c;
+      }
+
       dsda_AddPlayerMessage(s_GOTSHELLBOX, player);
       break;
+    }
 
     case SPR_BPAK:
       if (!player->backpack)
