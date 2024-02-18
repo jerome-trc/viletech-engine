@@ -491,6 +491,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         // bonus items
     case SPR_BON1:
+      if (player->health >= maxhealthbonus)
+        return; // (Rat)
+
       // can go over 100%
       player->health += P_PlayerHealthIncrease(1);
       if (player->health > (maxhealthbonus))//e6y
@@ -500,6 +503,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       break;
 
     case SPR_BON2:
+      if (player->armorpoints[ARMOR_ARMOR] >= max_armor)
+        return; // (Rat)
+
       // can go over 100%
       player->armorpoints[ARMOR_ARMOR] += P_PlayerArmorIncrease(1);
       // e6y
