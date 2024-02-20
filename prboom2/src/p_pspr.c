@@ -419,7 +419,7 @@ dboolean P_CheckAmmo(player_t *player)
   // preferences across demos or networks, so we have to use the
   // G_BuildTiccmd() interface instead of making the switch here.
 
-  if (demo_compatibility)
+  if (demoplayback && demo_compatibility)
     {
       player->pendingweapon = P_SwitchWeapon(player);      // phares
       // Now set appropriate weapon overlay.
@@ -659,7 +659,7 @@ void A_CheckReload(player_t *player, pspdef_t *psp)
 {
   CHECK_WEAPON_CODEPOINTER("A_CheckReload", player);
 
-  if (!P_CheckAmmo(player) && compatibility_level >= prboom_4_compatibility) {
+  if (!P_CheckAmmo(player) && compatibility_level >= prboom_4_compatibility && demoplayback) {
     /* cph 2002/08/08 - In old Doom, P_CheckAmmo would start the weapon lowering
      * immediately. This was lost in Boom when the weapon switching logic was
      * rewritten. But we must tell Doom that we don't need to complete the
