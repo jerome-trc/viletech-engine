@@ -31,6 +31,7 @@
  *
  *-----------------------------------------------------------------------------*/
 
+#include "doomdef.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "m_random.h"
@@ -487,18 +488,20 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_ARM1:
       if (!P_GiveArmor (player, green_armor_class))
         return;
+
       dsda_AddPlayerMessage(s_GOTARMOR, player);
       break;
 
     case SPR_ARM2:
       if (!P_GiveArmor (player, blue_armor_class))
         return;
+
       dsda_AddPlayerMessage(s_GOTMEGA, player);
       break;
 
         // bonus items
     case SPR_BON1:
-      if (player->health >= maxhealthbonus)
+      if (!demoplayback && player->health >= maxhealthbonus)
         return; // (Rat)
 
       // can go over 100%
@@ -510,7 +513,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       break;
 
     case SPR_BON2:
-      if (player->armorpoints[ARMOR_ARMOR] >= max_armor)
+      if (!demoplayback && player->armorpoints[ARMOR_ARMOR] >= max_armor)
         return; // (Rat)
 
       // can go over 100%
@@ -541,23 +544,18 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
         diff = 0;
 
       player->health += P_PlayerHealthIncrease(soul_health);
+
       if (player->health > max_soul)
         player->health = max_soul;
+
       player->mo->health = player->health;
 
-      while (diff >= 25) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC11);
-        diff -= 25;
-      }
-
-      while (diff >= 10) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
-        diff -= 10;
-      }
-
-      while (diff >= 1) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
-        diff -= 1;
+      if (!demoplayback) {
+        // (Rat) Spawn health bonuses to offset any wasted health.
+        while (diff >= 1) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          diff -= 1;
+        }
       }
 
       dsda_AddPlayerMessage(s_GOTSUPER, player);
@@ -565,11 +563,29 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       break;
     }
 
-    case SPR_MEGA:
+    case SPR_MEGA: {
       if (gamemode != commercial)
         return;
+
+      int diff_health = MAX(0, (player->health - 200) + 200);
+      int diff_armor = MAX(0, (player->armorpoints[ARMOR_ARMOR] - 200) + 200);
+
       player->health = mega_health;
       player->mo->health = player->health;
+
+      if (!demoplayback) {
+        // (Rat) Spawn health and armor bonuses to offset any waste.
+        while (diff_health >= 1) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          diff_health -= 1;
+        }
+
+        while (diff_armor >= 1) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC3);
+          diff_armor -= 1;
+        }
+      }
+
       // e6y
       // We always give armor type 2 for the megasphere;
       // dehacked only affects the MegaArmor.
@@ -579,7 +595,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       dsda_AddPlayerMessage(s_GOTMSPHERE, player);
       sound = sfx_getpow;
       break;
-
+    }
         // cards
         // leave cards for everyone
     case SPR_BKEY:
@@ -632,17 +648,17 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
       // medikits, heals
     case SPR_STIM: {
-      int diff = (player->health - 100) + 10;
-
-      if (diff < 0)
-        diff = 0;
+      int diff = MAX(0, (player->health - 100) + 10);
 
       if (!P_GiveBody(player, 10))
         return;
 
-      while (diff >= 1) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
-        diff -= 1;
+      if (!demoplayback) {
+        while (diff >= 1) {
+          // (Rat) Spawn health bonuses to offset any wasted health.
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          diff -= 1;
+        }
       }
 
       dsda_AddPlayerMessage(s_GOTSTIM, player);
@@ -650,10 +666,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     }
 
     case SPR_MEDI: {
-      int diff = (player->health - 100) + 25;
-
-      if (diff < 0)
-        diff = 0;
+      int diff = MAX(0, (player->health - 100) + 25);
 
       if (!P_GiveBody(player, 25))
         return;
@@ -664,14 +677,18 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       else
         dsda_AddPlayerMessage(s_GOTMEDIKIT, player);
 
-      while (diff >= 10) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
-        diff -= 10;
-      }
+      if (!demoplayback) {
+        while (diff >= 10) {
+          // (Rat) Spawn stimpacks to offset any wasted health.
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
+          diff -= 10;
+        }
 
-      while (diff >= 1) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
-        diff -= 1;
+        while (diff >= 1) {
+          // (Rat) Spawn health bonuses to offset any wasted health.
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          diff -= 1;
+        }
       }
 
       break;
@@ -685,9 +702,26 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       sound = sfx_getpow;
       break;
 
-    case SPR_PSTR:
+    case SPR_PSTR: {
+      int diff = MAX(0, (player->health - 100) + 100);
+
       if (!P_GivePower (player, pw_strength))
         return;
+
+      if (!demoplayback) {
+        while (diff >= 10) {
+          // (Rat) Spawn stimpacks to offset any wasted health.
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC10);
+          diff -= 10;
+        }
+
+        while (diff >= 1) {
+          // (Rat) Spawn health bonuses to offset any wasted health.
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          diff -= 1;
+        }
+      }
+
       dsda_AddPlayerMessage(s_GOTBERSERK, player);
 
       if (player->readyweapon != wp_fist && demoplayback)
@@ -695,6 +729,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
       sound = sfx_getpow;
       break;
+    }
 
     case SPR_PINS:
       if (!P_GivePower (player, pw_invisibility))
@@ -726,16 +761,14 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
       // ammo
     case SPR_CLIP:
-      if (special->flags & MF_DROPPED)
-        {
-          if (!P_GiveAmmo (player,am_clip,0))
-            return;
-        }
-      else
-        {
-          if (!P_GiveAmmo (player,am_clip,1))
-            return;
-        }
+      if (special->flags & MF_DROPPED) {
+        if (!P_GiveAmmo (player,am_clip,0))
+          return;
+      } else {
+        if (!P_GiveAmmo (player,am_clip,1))
+          return;
+      }
+
       dsda_AddPlayerMessage(s_GOTCLIP, player);
       break;
 
@@ -747,9 +780,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!P_GiveAmmo(player, am_clip, 5))
         return;
 
-      while (diff >= c) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_CLIP);
-        diff -= c;
+      if (!demoplayback) {
+        while (diff >= c) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_CLIP);
+          diff -= c;
+        }
       }
 
       dsda_AddPlayerMessage(s_GOTCLIPBOX, player);
@@ -770,9 +805,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!P_GiveAmmo(player, am_misl, 5))
         return;
 
-      while (diff >= c) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC18);
-        diff -= c;
+      if (!demoplayback) {
+        while (diff >= c) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC18);
+          diff -= c;
+        }
       }
 
       dsda_AddPlayerMessage(s_GOTROCKBOX, player);
@@ -793,9 +830,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!P_GiveAmmo(player, am_cell, 5))
         return;
 
-      while (diff >= c) {
-        P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
-        diff -= c;
+      if (!demoplayback) {
+        while (diff >= c) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+          diff -= c;
+        }
       }
 
       dsda_AddPlayerMessage(s_GOTCELLBOX, player);
@@ -825,22 +864,46 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       break;
     }
 
-    case SPR_BPAK:
-      if (!player->backpack)
-        {
-          for (i=0 ; i<NUMAMMO ; i++)
-            player->maxammo[i] *= 2;
-          player->backpack = true;
+    case SPR_BPAK: {
+      if (!player->backpack) {
+        for (i=0 ; i<NUMAMMO ; i++)
+          player->maxammo[i] *= 2;
+
+        player->backpack = true;
+      } else if (!demoplayback) {
+        if (player->ammo[am_clip] >= player->maxammo[am_clip]) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_CLIP);
         }
-      for (i=0 ; i<NUMAMMO ; i++)
+
+        if (player->ammo[am_shell] >= player->maxammo[am_shell]) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC22);
+        }
+
+        if (player->ammo[am_cell] >= player->maxammo[am_cell]) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+        }
+
+        if (player->ammo[am_misl] >= player->maxammo[am_misl]) {
+          P_SpawnMobj(special->x, special->y, special->z, MT_MISC18);
+        }
+      }
+
+      for (i = 0 ; i < NUMAMMO ; i++)
         P_GiveAmmo (player, i, 1);
+      
       dsda_AddPlayerMessage(s_GOTBACKPACK, player);
       break;
-
+    }
         // weapons
     case SPR_BFUG:
       if (!P_GiveWeapon (player, wp_bfg, false) )
         return;
+
+      if (!demoplayback && player->ammo[am_cell] >= player->maxammo[am_cell]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+      }
+
       dsda_AddPlayerMessage(s_GOTBFG9000, player);
       sound = sfx_wpnup;
       break;
@@ -848,6 +911,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_MGUN:
       if (!P_GiveWeapon (player, wp_chaingun, (special->flags&MF_DROPPED)!=0) )
         return;
+
+      if (!demoplayback && player->ammo[am_clip] >= player->maxammo[am_clip]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_CLIP);
+      }
+
       dsda_AddPlayerMessage(s_GOTCHAINGUN, player);
       sound = sfx_wpnup;
       break;
@@ -862,6 +930,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_LAUN:
       if (!P_GiveWeapon (player, wp_missile, false) )
         return;
+
+      if (!demoplayback && player->ammo[am_misl] >= player->maxammo[am_misl]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC18);
+      }
+
       dsda_AddPlayerMessage(s_GOTLAUNCHER, player);
       sound = sfx_wpnup;
       break;
@@ -869,6 +942,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_PLAS:
       if (!P_GiveWeapon (player, wp_plasma, false) )
         return;
+
+      if (!demoplayback && player->ammo[am_cell] >= player->maxammo[am_cell]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC20);
+      }
+
       dsda_AddPlayerMessage(s_GOTPLASMA, player);
       sound = sfx_wpnup;
       break;
@@ -876,6 +954,11 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_SHOT:
       if (!P_GiveWeapon (player, wp_shotgun, (special->flags&MF_DROPPED)!=0 ) )
         return;
+
+      if (!demoplayback && player->ammo[am_shell] >= player->maxammo[am_shell]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC22);
+      }
+
       dsda_AddPlayerMessage(s_GOTSHOTGUN, player);
       sound = sfx_wpnup;
       break;
@@ -883,6 +966,12 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
     case SPR_SGN2:
       if (!P_GiveWeapon(player, wp_supershotgun, (special->flags&MF_DROPPED)!=0))
         return;
+
+      if (!demoplayback && player->ammo[am_shell] >= player->maxammo[am_shell]) {
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC22);
+        P_SpawnMobj(special->x, special->y, special->z, MT_MISC22);
+      }
+
       dsda_AddPlayerMessage(s_GOTSHOTGUN2, player);
       sound = sfx_wpnup;
       break;
