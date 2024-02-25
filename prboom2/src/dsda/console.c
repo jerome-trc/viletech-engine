@@ -58,6 +58,7 @@
 #include "dsda/utility.h"
 
 #include "console.h"
+#include "w_wad.h"
 
 #define target_player players[consoleplayer]
 
@@ -2220,6 +2221,15 @@ static dboolean console_MobjInfoSetFlags(const char* command, const char* args) 
   return true;
 }
 
+static dboolean console_MusicPlay(const char* command, const char* args) {
+  if (!S_ChangeMusicByName(args, true)) {
+    doom_printf("Music lump not found: %s", args);
+    return false;
+  }
+
+  return true;
+}
+
 static dboolean console_MusicRestart(const char* command, const char* args) {
   S_StopMusic();
   S_RestartMusic();
@@ -2267,6 +2277,7 @@ static console_command_entry_t console_commands[] = {
   { "player.set_vy", console_PlayerSetVY, CF_NEVER },
   { "player.set_vz", console_PlayerSetVZ, CF_NEVER },
 
+  { "music.play", console_MusicPlay, CF_ALWAYS },
   { "music.restart", console_MusicRestart, CF_ALWAYS },
 
   { "level.exit", console_LevelExit, CF_NEVER },
