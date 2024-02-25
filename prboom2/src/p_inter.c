@@ -31,11 +31,14 @@
  *
  *-----------------------------------------------------------------------------*/
 
+#include <assert.h>
+
 #include "doomdef.h"
 #include "doomstat.h"
 #include "dstrings.h"
 #include "m_random.h"
 #include "am_map.h"
+#include "p_mobj.h"
 #include "r_main.h"
 #include "s_sound.h"
 #include "smooth.h"
@@ -506,8 +509,10 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
       // can go over 100%
       player->health += P_PlayerHealthIncrease(1);
+
       if (player->health > (maxhealthbonus))//e6y
         player->health = (maxhealthbonus);//e6y
+
       player->mo->health = player->health;
       dsda_AddPlayerMessage(s_GOTHTHBONUS, player);
       break;
@@ -553,7 +558,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!demoplayback) {
         // (Rat) Spawn health bonuses to offset any wasted health.
         while (diff >= 1) {
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff -= 1;
         }
       }
@@ -576,12 +583,16 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!demoplayback) {
         // (Rat) Spawn health and armor bonuses to offset any waste.
         while (diff_health >= 1) {
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff_health -= 1;
         }
 
         while (diff_armor >= 1) {
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC3);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC3);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff_armor -= 1;
         }
       }
@@ -656,7 +667,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (!demoplayback) {
         while (diff >= 1) {
           // (Rat) Spawn health bonuses to offset any wasted health.
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff -= 1;
         }
       }
@@ -686,7 +699,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         while (diff >= 1) {
           // (Rat) Spawn health bonuses to offset any wasted health.
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff -= 1;
         }
       }
@@ -717,7 +732,9 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
 
         while (diff >= 1) {
           // (Rat) Spawn health bonuses to offset any wasted health.
-          P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          mobj_t* mo = P_SpawnMobj(special->x, special->y, special->z, MT_MISC2);
+          assert(mo != NULL);
+          mo->flags &= ~MF_COUNTITEM;
           diff -= 1;
         }
       }
