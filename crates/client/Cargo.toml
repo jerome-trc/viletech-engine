@@ -1,0 +1,23 @@
+[package]
+name = "viletech-client"
+version = "0.0.0"
+edition.workspace = true
+
+authors = ["jerome-trc"]
+categories = []
+description = "Rust component of the VileTech Client"
+homepage = "https://github.com/jerome-trc/viletech-engine/blob/master/crates/client"
+keywords = ["doom", "viletech"]
+license = "MIT OR Apache-2.0"
+publish = false
+repository.workspace = true
+
+[lib]
+name = "vtclient"
+crate-type = ["staticlib"]
+
+[dependencies]
+clap.workspace = true
+
+[build-dependencies]
+cbindgen.workspace = true

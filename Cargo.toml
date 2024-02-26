@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["crates/client"]
+default-members = ["crates/client"]
+
+[workspace.package]
+edition = "2021"
+repository = "https://github.com/jerome-trc/viletech-engine"
+
+[profile.release]
+codegen-units = 4
+lto = true
+opt-level = 3
+strip = true
+
+[profile.dev.package."*"]
+opt-level = 3
+
+[profile.bench]
+debug = true
+lto = "thin"
+strip = false
+
+[workspace.dependencies]
+clap = { version = "4.4.7", features = ["derive"] }
+# Build only
+cbindgen = "0.26.0"

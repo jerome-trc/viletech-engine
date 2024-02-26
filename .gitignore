@@ -2,7 +2,12 @@
 /client/release
 /build*
 /release*
+/target
 /doxy
+
+# https://doc.rust-lang.org/cargo/guide/cargo-toml-vs-cargo-lock.html
+# https://doc.rust-lang.org/cargo/faq.html#why-have-cargolock-in-version-control
+/Cargo.lock
 
 # spec files
 analysis.txt
