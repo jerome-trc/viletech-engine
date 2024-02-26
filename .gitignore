@@ -2,6 +2,7 @@
 /client/release
 /build*
 /release*
+/doxy
 
 # spec files
 analysis.txt
