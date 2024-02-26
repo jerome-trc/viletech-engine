@@ -220,6 +220,15 @@ namespace std {
 }
 #endif
 
+#if __has_include(<type_traits>)
+#include <type_traits>
+
+namespace std {
+	template<class T, class U>
+	using IsSame = is_same<T, U>;
+}
+#endif
+
 #if __has_include(<unordered_map>)
 #include <unordered_map>
 
