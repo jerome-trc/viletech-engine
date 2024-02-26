@@ -1,5 +1,3 @@
-# PrBoom main executable
-
 set(COMMON_SRC
     am_map.c
     am_map.h

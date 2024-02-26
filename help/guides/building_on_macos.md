@@ -1,5 +1,5 @@
 # Building DSDA-Doom on macOS
-This is a basic guide for building DSDA-Doom for a x86_64 or arm64 macOS target using brew. 
+This is a basic guide for building DSDA-Doom for a x86_64 or arm64 macOS target using brew.
 ## Configure brew
 [brew](https://brew.sh) is a package manager for macOS and Linux. we will use it to download everything we need to build DSDA-Doom.
 
@@ -23,7 +23,7 @@ git clone https://github.com/kraflab/dsda-doom.git
 Prepare the build folder, generate the build system, and compile:
 ```
 cd dsda-doom
-cmake -Sprboom2 -Bbuild -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=ON
+cmake -Sclient -Bbuild -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=ON
 cmake --build build
 ```
 

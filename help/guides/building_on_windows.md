@@ -1,4 +1,4 @@
-# Building DSDA-Doom on Windows
+# Building VileTech on Windows
 
 This is a guide for building DSDA-Doom on Windows. It covers the use of MSVC and MSYS2.
 
@@ -8,7 +8,7 @@ This section will cover the installation of vcpkg, its configuration, and how to
 
 ### Installing additional tools
 
-vcpkg and DSDA have similar needs for tools, you will need:
+vcpkg and VileTech have similar needs for tools, you will need:
 
 - [CMake](https://cmake.org/)
 - [Git](https://git-scm.com/)
@@ -50,7 +50,7 @@ By default, the CMake integration only provides an `x64-Debug` configuration. To
 
 On the left, you should see a list of all the configurations you have, click the green + at the top and search for `x64-Release`. After adding it, you should now be able to switch configuration at the top. This menu also lets you customise the CMake cache and set defaults.
 
-To install a build, select "Build" and then "Install dsda-doom". The default directories for build and install are, respectively, `prboom2/out/build/<config>` and `prboom2/out/install/<config>`.
+To install a build, select "Build" and then "Install dsda-doom". The default directories for build and install are, respectively, `client/out/build/<config>` and `client/out/install/<config>`.
 
 ### Building from the terminal
 
@@ -64,7 +64,7 @@ Run the CMake configuration:
 
 ```
 cd dsda-doom
-cmake -Sprboom2 -Bbuild -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DENABLE_LTO=ON
+cmake -Sclient -Bbuild -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DENABLE_LTO=ON
 ```
 
 During this step, vcpkg will build all the dependencies. If vcpkg does not get invoked or CMake fails at finding the dependencies, delete the build directory and make sure the path to the `vcpkg.cmake` toolchain is correct.
@@ -99,7 +99,7 @@ If you use the CMake Tools extension, you will need to:
 - Set your workspace settings to tell CMake Tools the location of the CMakeLists.txt:
 
 ```json
-"cmake.sourceDirectory": "${workspaceFolder}/prboom2"
+"cmake.sourceDirectory": "${workspaceFolder}/client"
 ```
 
 - Create a new kit (preferably a copy of the one you want to use), and add this key to it:
@@ -137,8 +137,8 @@ git clone https://github.com/kraflab/dsda-doom.git
 Run the CMake configuration:
 
 ```
-cd dsda-doom
-cmake -Sprboom2 -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+cd viletech-engine
+cmake -Sclient -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
 ```
 
 CMake does not appear to support LTO properly for MinGW GCC which results in much longer linking time. Consider only enabling it when making a release.
@@ -149,11 +149,11 @@ And finally, build the project:
 cmake --build build --config Release
 ```
 
-You should then be able to run dsda-doom from the build directory:
+You should then be able to run VileTech from the build directory:
 
 ```
 cd build
-./dsda-doom
+./viletech
 ```
 
 You will only be able to run the executable from the MSYS2 Terminal directly as the necessary DLLs are not copied over to the build directory.

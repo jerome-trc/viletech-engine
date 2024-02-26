@@ -41,7 +41,7 @@ Finally, there is a positioning helper: `add_offset y alignment`
 - This compensates for mixed stretching between the message font and the extended hud font
 - Set `y` as the number of message font component lines at the edge of the given alignment
 
-You can find the current default configuration [here](../prboom2/data/lumps/dsdahud.lmp).
+You can find the current default configuration [here](../client/data/lumps/dsdahud.lmp).
 
 ### Components
 

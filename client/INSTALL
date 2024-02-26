@@ -18,8 +18,8 @@ Basic Installation (ZIP, tarball, Git)
 
     You will also need `cmake` and `make` if you haven't already got them.
 
-  2. `cd' to the directory containing the DSDA-Doom distribution (the directory
-     this file is in, prboom2).
+  2. `cd' to the directory containing the VileTech distribution (the directory
+     this file is in, client).
 
      Create a new `build` folder and `cd` into it.
      `mkdir build && cd build`
@@ -31,9 +31,9 @@ Basic Installation (ZIP, tarball, Git)
 
      This should end with the message "Build files have been written to: [folderpath]".
 
-  3. Type `make` to compile DSDA-Doom. This may take some time; while it's
+  3. Type `make` to compile VileTech. This may take some time; while it's
      compiling I suggest you read the README, or maybe go and look for some
-     good doom levels to play when it's finished :-).
+     good Doom levels to play when it's finished :-).
 
      This should work on all Linux systems, but systems that have a make
      utility other than GNU make may have problems. E.g. you might need to
