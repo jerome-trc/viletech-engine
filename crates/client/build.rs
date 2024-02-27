@@ -9,6 +9,7 @@ fn main() {
 	config.pragma_once = true;
 	config.macro_expansion.bitflags = true;
 	config.structure.associated_constants_in_body = true;
+	config.function.must_use = Some("[[nodiscard]]".to_string());
 
 	gen_header(&mut config, "", "viletech.rs.hpp", &[]);
 }
