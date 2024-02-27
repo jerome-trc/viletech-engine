@@ -1,0 +1,5 @@
+Makefile.am eol=lf
+viletech.bash -text
+viletech.desktop -text
+viletech.exe.manifest -text
+viletech.ico -text
