@@ -42,69 +42,62 @@ find_package(PkgConfig QUIET)
 pkg_check_modules(PC_FLUIDSYNTH QUIET fluidsynth)
 
 find_path(
-  FluidSynth_INCLUDE_DIR
-  NAMES fluidsynth.h
-  HINTS "${PC_FLUIDSYNTH_INCLUDEDIR}"
-)
+    FluidSynth_INCLUDE_DIR
+    NAMES fluidsynth.h
+    HINTS "${PC_FLUIDSYNTH_INCLUDEDIR}")
 
 find_file(
-  FluidSynth_DLL
-  NAMES fluidsynth.dll libfluidsynth.dll libfluidsynth-3.dll
-  PATH_SUFFIXES bin
-  HINTS "${PC_FLUIDSYNTH_PREFIX}"
-)
+    FluidSynth_DLL
+    NAMES fluidsynth.dll libfluidsynth.dll libfluidsynth-3.dll
+    PATH_SUFFIXES bin
+    HINTS "${PC_FLUIDSYNTH_PREFIX}")
 
 find_library(
-  FluidSynth_LIBRARY
-  NAMES fluidsynth libfluidsynth
-  HINTS "${PC_FLUIDSYNTH_LIBDIR}"
-)
+    FluidSynth_LIBRARY
+    NAMES fluidsynth libfluidsynth
+    HINTS "${PC_FLUIDSYNTH_LIBDIR}")
 
 if(FluidSynth_DLL OR FluidSynth_LIBRARY MATCHES ".so|.dylib")
-  set(_fluidsynth_library_type SHARED)
+    set(_fluidsynth_library_type SHARED)
 else()
-  set(_fluidsynth_library_type STATIC)
+    set(_fluidsynth_library_type STATIC)
 endif()
 
-get_flags_from_pkg_config("${_fluidsynth_library_type}" "PC_FLUIDSYNTH" "_fluidsynth")
+get_flags_from_pkg_config("${_fluidsynth_library_type}" "PC_FLUIDSYNTH"
+                          "_fluidsynth")
 
 include(FindPackageHandleStandardArgs)
 find_package_handle_standard_args(
-  FluidSynth
-  REQUIRED_VARS "FluidSynth_LIBRARY" "FluidSynth_INCLUDE_DIR")
+    FluidSynth REQUIRED_VARS "FluidSynth_LIBRARY" "FluidSynth_INCLUDE_DIR")
 
 if(FluidSynth_FOUND)
-  if(NOT TARGET FluidSynth::libfluidsynth)
-    add_library(FluidSynth::libfluidsynth ${_fluidsynth_library_type} IMPORTED)
-    set_target_properties(
-      FluidSynth::libfluidsynth
-      PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${FluidSynth_INCLUDE_DIR}"
-                 INTERFACE_COMPILE_OPTIONS "${_fluidsynth_compile_options}"
-                 INTERFACE_LINK_LIBRARIES "${_fluidsynth_link_libraries}"
-                 INTERFACE_LINK_DIRECTORIES "${_fluidsynth_link_directories}"
-                 INTERFACE_LINK_OPTIONS "${_fluidsynth_link_options}"
-    )
-  endif()
+    if(NOT TARGET FluidSynth::libfluidsynth)
+        add_library(FluidSynth::libfluidsynth ${_fluidsynth_library_type}
+                    IMPORTED)
+        set_target_properties(
+            FluidSynth::libfluidsynth
+            PROPERTIES INTERFACE_INCLUDE_DIRECTORIES "${FluidSynth_INCLUDE_DIR}"
+                       INTERFACE_COMPILE_OPTIONS
+                       "${_fluidsynth_compile_options}"
+                       INTERFACE_LINK_LIBRARIES "${_fluidsynth_link_libraries}"
+                       INTERFACE_LINK_DIRECTORIES
+                       "${_fluidsynth_link_directories}"
+                       INTERFACE_LINK_OPTIONS "${_fluidsynth_link_options}")
+    endif()
 
-  if(FluidSynth_DLL)
-    set_target_properties(
-      FluidSynth::libfluidsynth
-      PROPERTIES IMPORTED_LOCATION "${FluidSynth_DLL}"
-                 IMPORTED_IMPLIB "${FluidSynth_LIBRARY}"
-    )
-  else()
-    set_target_properties(
-      FluidSynth::libfluidsynth
-      PROPERTIES IMPORTED_LOCATION "${FluidSynth_LIBRARY}"
-    )
-  endif()
+    if(FluidSynth_DLL)
+        set_target_properties(
+            FluidSynth::libfluidsynth
+            PROPERTIES IMPORTED_LOCATION "${FluidSynth_DLL}"
+                       IMPORTED_IMPLIB "${FluidSynth_LIBRARY}")
+    else()
+        set_target_properties(
+            FluidSynth::libfluidsynth PROPERTIES IMPORTED_LOCATION
+                                                 "${FluidSynth_LIBRARY}")
+    endif()
 
-  set(FluidSynth_LIBRARIES FluidSynth::libfluidsynth)
-  set(FluidSynth_INCLUDE_DIRS "${FluidSynth_INCLUDE_DIR}")
+    set(FluidSynth_LIBRARIES FluidSynth::libfluidsynth)
+    set(FluidSynth_INCLUDE_DIRS "${FluidSynth_INCLUDE_DIR}")
 endif()
 
-mark_as_advanced(
-  FluidSynth_INCLUDE_DIR
-  FluidSynth_DLL
-  FluidSynth_LIBRARY
-)
+mark_as_advanced(FluidSynth_INCLUDE_DIR FluidSynth_DLL FluidSynth_LIBRARY)

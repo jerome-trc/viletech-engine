@@ -1,6 +1,5 @@
 set(COMMON_SRC
-	main.cpp
-
+    main.cpp
     am_map.c
     am_map.h
     doomdata.h
@@ -419,12 +418,9 @@ set(COMMON_SRC
     z_bmalloc.c
     z_bmalloc.h
     z_zone.c
-    z_zone.h
-)
+    z_zone.h)
 
-set(NET_CLIENT_SRC
-    d_client.c
-)
+set(NET_CLIENT_SRC d_client.c)
 
 if(HAVE_MMAP OR HAVE_CREATE_FILE_MAPPING)
     set(WAD_SRC w_mmap.c)
@@ -436,16 +432,14 @@ set(MUS2MID_SRC
     memio.c
     memio.h
     mus2mid.c
-    mus2mid.h
-)
+    mus2mid.h)
 
 set(SDLDOOM_SOURCES
     SDL/i_main.c
     SDL/i_sound.c
     SDL/i_sshot.c
     SDL/i_system.c
-    SDL/i_video.c
-)
+    SDL/i_video.c)
 
 set(DOOMMUSIC_SOURCES
     MUSIC/dumbplayer.c
@@ -468,14 +462,9 @@ set(DOOMMUSIC_SOURCES
     MUSIC/portmidiplayer.c
     MUSIC/portmidiplayer.h
     MUSIC/vorbisplayer.c
-    MUSIC/vorbisplayer.h
-)
+    MUSIC/vorbisplayer.h)
 
-set(EXTRA_FILES
-    r_drawcolpipeline.inl
-    r_drawcolumn.inl
-    r_drawflush.inl
-)
+set(EXTRA_FILES r_drawcolpipeline.inl r_drawcolumn.inl r_drawflush.inl)
 
 set(VTEC_SOURCES
     ${COMMON_SRC}
@@ -484,8 +473,7 @@ set(VTEC_SOURCES
     ${MUS2MID_SRC}
     ${SDLDOOM_SOURCES}
     ${DOOMMUSIC_SOURCES}
-    ${EXTRA_FILES}
-)
+    ${EXTRA_FILES})
 
 function(AddGameExecutable TARGET SOURCES)
     set(SOURCES
@@ -507,62 +495,48 @@ function(AddGameExecutable TARGET SOURCES)
         gl_struct.h
         gl_texture.c
         gl_vertex.c
-        gl_wipe.c
-    )
+        gl_wipe.c)
 
     if(WIN32)
-        set(SOURCES
-            ${SOURCES}
-            ../ICONS/icons.rc
-        )
+        set(SOURCES ${SOURCES} ../ICONS/icons.rc)
         if(MSVC)
-            set(SOURCES
-                ${SOURCES}
-                win_opendir.c
-                win_opendir.h
-            )
+            set(SOURCES ${SOURCES} win_opendir.c win_opendir.h)
         endif()
     endif()
 
     add_executable(${TARGET} WIN32 ${SOURCES})
 
-    target_compile_options(${TARGET} PRIVATE
-        ${SUPPORTED_WARNINGS}
-        ${FAST_MATH_FLAG}
-    )
+    target_compile_options(${TARGET} PRIVATE ${SUPPORTED_WARNINGS}
+                                             ${FAST_MATH_FLAG})
 
-    target_compile_definitions(${TARGET} PRIVATE
-        ${DEPRECATION_SILENCING_DEFINITIONS}
-        ${VTEC_COMPILE_DEFINITIONS}
-    )
+    target_compile_definitions(
+        ${TARGET} PRIVATE ${DEPRECATION_SILENCING_DEFINITIONS}
+                          ${VTEC_COMPILE_DEFINITIONS})
 
-    target_include_directories(${TARGET} PRIVATE
-        ${SDL2_INCLUDE_DIRS}
-        ${CMAKE_BINARY_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-		../../engine/src
-		../../depend
-    )
+    target_include_directories(
+        ${TARGET}
+        PRIVATE ${SDL2_INCLUDE_DIRS}
+                ${CMAKE_BINARY_DIR}
+                ${CMAKE_CURRENT_SOURCE_DIR}
+                ../../engine/src
+                ../../depend)
 
-    target_link_libraries(${TARGET} PRIVATE
-        libzip::zip
-        ${SDL2_LIBRARIES}
-        SDL2_mixer::SDL2_mixer
-        ZLIB::ZLIB
-    )
+    target_link_libraries(
+        ${TARGET}
+        PRIVATE libzip::zip
+                ${SDL2_LIBRARIES}
+                SDL2_mixer::SDL2_mixer
+                ZLIB::ZLIB)
 
     if(WIN32)
-        target_link_libraries(${TARGET} PRIVATE
-            winmm
-            comctl32
-        )
+        target_link_libraries(${TARGET} PRIVATE winmm comctl32)
     endif()
 
-    set_target_properties(${TARGET} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${VTEC_OUTPUT_PATH}
-        INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO}
-        C_STANDARD 99
-    )
+    set_target_properties(
+        ${TARGET}
+        PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${VTEC_OUTPUT_PATH}
+                   INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO}
+                   C_STANDARD 99)
 
     if(HAVE_LIBSDL2_IMAGE)
         target_link_libraries(${TARGET} PRIVATE SDL2_image::SDL2_image)
@@ -591,17 +565,19 @@ function(AddGameExecutable TARGET SOURCES)
     add_dependencies(${TARGET} viletech-basedata)
 
     if(MSVC)
-        set_target_properties(${TARGET} PROPERTIES
-            LINK_FLAGS "/MANIFEST:NO /SUBSYSTEM:CONSOLE"
-        )
-        add_custom_command(TARGET ${TARGET} POST_BUILD
-            COMMAND "mt.exe" -manifest \"${CMAKE_CURRENT_SOURCE_DIR}\\..\\ICONS\\viletech.exe.manifest\" -outputresource:\"$<TARGET_FILE:viletech>\"\;\#1
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${WAD_DATA_PATH} $<TARGET_FILE_DIR:viletech>
-        )
+        set_target_properties(
+            ${TARGET} PROPERTIES LINK_FLAGS "/MANIFEST:NO /SUBSYSTEM:CONSOLE")
+        add_custom_command(
+            TARGET ${TARGET}
+            POST_BUILD
+            COMMAND
+                "mt.exe" -manifest
+                \"${CMAKE_CURRENT_SOURCE_DIR}\\..\\ICONS\\viletech.exe.manifest\"
+                -outputresource:\"$<TARGET_FILE:viletech>\"\;\#1
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${WAD_DATA_PATH}
+                    $<TARGET_FILE_DIR:viletech>)
     elseif(WIN32)
-        set_target_properties(${TARGET} PROPERTIES
-            LINK_FLAGS "-mconsole"
-        )
+        set_target_properties(${TARGET} PROPERTIES LINK_FLAGS "-mconsole")
     endif()
 
     if(WIN32)
@@ -610,61 +586,72 @@ function(AddGameExecutable TARGET SOURCES)
         set(VTEC_BINARY_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}")
     endif()
 
-    if(CMAKE_VERSION VERSION_GREATER 3.20 AND NOT VCPKG_TOOLCHAIN AND WIN32)
+    if(CMAKE_VERSION VERSION_GREATER 3.20
+       AND NOT VCPKG_TOOLCHAIN
+       AND WIN32)
         install(
             TARGETS ${TARGET}
-            RUNTIME_DEPENDENCIES
-                PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
-                POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
-                DIRECTORIES $<TARGET_FILE_DIR:${TARGET}> $ENV{PATH}
+                    RUNTIME_DEPENDENCIES
+                    PRE_EXCLUDE_REGEXES
+                    "api-ms-"
+                    "ext-ms-"
+                    POST_EXCLUDE_REGEXES
+                    ".*system32/.*\\.dll"
+                    DIRECTORIES
+                    $<TARGET_FILE_DIR:${TARGET}>
+                    $ENV{PATH}
             RUNTIME DESTINATION "${VTEC_BINARY_INSTALL_DIR}"
-            COMPONENT "Game executable"
-        )
+                    COMPONENT "Game executable")
     else()
-        install(TARGETS ${TARGET} COMPONENT "Game executable" RUNTIME DESTINATION "${VTEC_BINARY_INSTALL_DIR}")
+        install(
+            TARGETS ${TARGET}
+            COMPONENT "Game executable"
+            RUNTIME DESTINATION "${VTEC_BINARY_INSTALL_DIR}")
     endif()
 
-    target_link_libraries(${TARGET} PRIVATE
-        ${OPENGL_gl_LIBRARY}
-        ${OPENGL_glu_LIBRARY}
-    )
+    target_link_libraries(${TARGET} PRIVATE ${OPENGL_gl_LIBRARY}
+                                            ${OPENGL_glu_LIBRARY})
 
-	# Rust
-	include(ExternalProject)
-	set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_SOURCE_DIR}/../target)
+    # Rust
+    include(ExternalProject)
+    set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_SOURCE_DIR}/../target)
 
-	ExternalProject_Add(
-	    client_rs
-	    DOWNLOAD_COMMAND ""
-	    CONFIGURE_COMMAND ""
-	    BUILD_COMMAND cargo build COMMAND cargo build --release
-		BUILD_BYPRODUCTS
-			"${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
-			"${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
-		BYPRODUCTS
-			"${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
-			"${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a"
-	    BINARY_DIR "${CMAKE_SOURCE_DIR}/../target"
-	    INSTALL_COMMAND ""
-	    LOG_BUILD ON
-	)
+    ExternalProject_Add(
+        client_rs
+        DOWNLOAD_COMMAND ""
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND cargo build
+        COMMAND cargo build --release
+        BUILD_BYPRODUCTS
+            "${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
+            "${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
+            BYPRODUCTS
+            "${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
+            "${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a"
+        BINARY_DIR "${CMAKE_SOURCE_DIR}/../target"
+        INSTALL_COMMAND ""
+        LOG_BUILD ON)
 
-	add_dependencies(${TARGET} client_rs)
+    add_dependencies(${TARGET} client_rs)
 
-	if(WIN32)
-		target_link_libraries(
-			${TARGET} PRIVATE
-			debug "${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
-			optimized "${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
-			ws2_32 userenv advapi32
-		)
-	else()
-		target_link_libraries(
-			${TARGET} PRIVATE
-			debug "${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
-			optimized "${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a"
-		)
-	endif()
+    if(WIN32)
+        target_link_libraries(
+            ${TARGET}
+            PRIVATE debug
+                    "${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
+                    optimized
+                    "${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
+                    ws2_32
+                    userenv
+                    advapi32)
+    else()
+        target_link_libraries(
+            ${TARGET}
+            PRIVATE debug
+                    "${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
+                    optimized
+                    "${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a")
+    endif()
 endfunction()
 
-AddGameExecutable(viletech "${VTEC_SOURCES}")
+addgameexecutable(viletech "${VTEC_SOURCES}")

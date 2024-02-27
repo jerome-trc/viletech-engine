@@ -1,7 +1,8 @@
 # VileTech WAD creation tool
 
 if(NOT CMAKE_CROSSCOMPILING)
-    add_executable(rdatawad
+    add_executable(
+        rdatawad
         rd_main.c
         rd_util.c
         rd_util.h
@@ -12,20 +13,20 @@ if(NOT CMAKE_CROSSCOMPILING)
         rd_palette.c
         rd_palette.h
         rd_graphic.c
-        rd_graphic.h
-    )
+        rd_graphic.h)
     target_compile_options(rdatawad PRIVATE ${SUPPORTED_WARNINGS})
-    target_compile_definitions(rdatawad PRIVATE ${DEPRECATION_SILENCING_DEFINITIONS})
+    target_compile_definitions(rdatawad
+                               PRIVATE ${DEPRECATION_SILENCING_DEFINITIONS})
     target_include_directories(rdatawad PRIVATE ${CMAKE_BINARY_DIR})
 
-    set(CROSS_EXPORTS ${CROSS_EXPORTS} rdatawad PARENT_SCOPE)
+    set(CROSS_EXPORTS
+        ${CROSS_EXPORTS} rdatawad
+        PARENT_SCOPE)
 endif()
 
 # VileTech internal WAD
 
-set(PALETTE
-    palette.rgb
-)
+set(PALETTE palette.rgb)
 
 set(LUMPS
     lumps/switches.lmp
@@ -34,12 +35,9 @@ set(LUMPS
     lumps/soundfont/sndfont.lmp
     lumps/dsdacr.lmp
     lumps/dsdahud.lmp
-    lumps/dsdatc.lmp
-)
+    lumps/dsdatc.lmp)
 
-set(COLORMAPS
-    lumps/watermap.lmp
-)
+set(COLORMAPS lumps/watermap.lmp)
 
 set(TABLES
     lumps/sinetabl.lmp
@@ -62,8 +60,7 @@ set(TABLES
     lumps/m_shadow.lmp
     lumps/m_power.lmp
     lumps/m_weap.lmp
-    lumps/m_mark.lmp
-)
+    lumps/m_mark.lmp)
 
 set(SOUNDS
     sounds/dsdgsit.wav
@@ -71,8 +68,7 @@ set(SOUNDS
     sounds/dsdgact.wav
     sounds/dsdgdth.wav
     sounds/dsdgpain.wav
-    sounds/dssecret.wav
-)
+    sounds/dssecret.wav)
 
 set(GRAPHICS
     graphics/dig033.ppm
@@ -194,16 +190,11 @@ set(GRAPHICS
     graphics/cross4.ppm
     graphics/cross5.ppm
     graphics/cross6.ppm
-    graphics/cross7.ppm
-)
+    graphics/cross7.ppm)
 
-set(FLATS
-    flats/-n0_tex-.ppm
-)
+set(FLATS flats/-n0_tex-.ppm)
 
-set(SPRITES
-    sprites/tnt1a0.ppm
-)
+set(SPRITES sprites/tnt1a0.ppm)
 set(SPRITEP "0,0,sprites/tnt1a0.ppm")
 
 set(SPRITES
@@ -277,8 +268,7 @@ set(SPRITES
     sprites/dogsk0.ppm
     sprites/dogsl0.ppm
     sprites/dogsm0.ppm
-    sprites/dogsn0.ppm
-)
+    sprites/dogsn0.ppm)
 set(SPRITEP
     ${SPRITEP}
     "33,66,sprites/dogsa1.ppm"
@@ -350,8 +340,7 @@ set(SPRITEP
     "33,67,sprites/dogsk0.ppm"
     "33,67,sprites/dogsl0.ppm"
     "33,68,sprites/dogsm0.ppm"
-    "33,69,sprites/dogsn0.ppm"
-)
+    "33,69,sprites/dogsn0.ppm")
 
 set(SPRITES
     ${SPRITES}
@@ -366,8 +355,7 @@ set(SPRITES
     sprites/pls2b0.ppm
     sprites/pls2c0.ppm
     sprites/pls2d0.ppm
-    sprites/pls2e0.ppm
-)
+    sprites/pls2e0.ppm)
 set(SPRITEP
     ${SPRITEP}
     "9,11,sprites/pls1a0.ppm"
@@ -381,8 +369,7 @@ set(SPRITEP
     "8,13,sprites/pls2b0.ppm"
     "11,18,sprites/pls2c0.ppm"
     "16,27,sprites/pls2d0.ppm"
-    "18,27,sprites/pls2e0.ppm"
-)
+    "18,27,sprites/pls2e0.ppm")
 
 set(WAD_SRC
     ${PALETTE}
@@ -392,24 +379,49 @@ set(WAD_SRC
     ${SOUNDS}
     ${GRAPHICS}
     ${FLATS}
-    ${SPRITES}
-)
+    ${SPRITES})
 
 set(WAD_CMDLINE
-    -palette ${PALETTE}
-    -lumps ${LUMPS}
-    -marker C_START -lumps ${COLORMAPS} -marker C_END
-    -marker B_START -lumps ${TABLES} -marker B_END
-    -sounds ${SOUNDS}
-    -graphics ${GRAPHICS}
-    -marker FF_START -flats ${FLATS} -marker FF_END
-    -marker SS_START -sprites ${SPRITEP} -marker SS_END
-)
+    -palette
+    ${PALETTE}
+    -lumps
+    ${LUMPS}
+    -marker
+    C_START
+    -lumps
+    ${COLORMAPS}
+    -marker
+    C_END
+    -marker
+    B_START
+    -lumps
+    ${TABLES}
+    -marker
+    B_END
+    -sounds
+    ${SOUNDS}
+    -graphics
+    ${GRAPHICS}
+    -marker
+    FF_START
+    -flats
+    ${FLATS}
+    -marker
+    FF_END
+    -marker
+    SS_START
+    -sprites
+    ${SPRITEP}
+    -marker
+    SS_END)
 
 add_custom_command(
     OUTPUT "${WAD_DATA_PATH}"
-    COMMAND rdatawad -I "${CMAKE_CURRENT_SOURCE_DIR}" ${WAD_CMDLINE} -o "${WAD_DATA_PATH}"
-    DEPENDS rdatawad ${WAD_SRC}
-)
+    COMMAND rdatawad -I "${CMAKE_CURRENT_SOURCE_DIR}" ${WAD_CMDLINE} -o
+            "${WAD_DATA_PATH}"
+    DEPENDS rdatawad ${WAD_SRC})
 add_custom_target(viletech-basedata DEPENDS ${WAD_DATA_PATH})
-install(FILES ${WAD_DATA_PATH} DESTINATION ${VTEC_BASEDATA_DIR} COMPONENT "VileTech Internal Data")
+install(
+    FILES ${WAD_DATA_PATH}
+    DESTINATION ${VTEC_BASEDATA_DIR}
+    COMPONENT "VileTech Internal Data")

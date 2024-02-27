@@ -49,12 +49,21 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(default_build_type "RelWithDebInfo")
 
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(STATUS "Setting build type to '${default_build_type}' as none was specified.")
-  set(CMAKE_BUILD_TYPE "${default_build_type}" CACHE
-      STRING "Choose the type of build." FORCE)
-  # Set the possible values of build type for cmake-gui
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
-    "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+    message(
+        STATUS
+            "Setting build type to '${default_build_type}' as none was specified."
+    )
+    set(CMAKE_BUILD_TYPE
+        "${default_build_type}"
+        CACHE STRING "Choose the type of build." FORCE)
+    # Set the possible values of build type for cmake-gui
+    set_property(
+        CACHE CMAKE_BUILD_TYPE
+        PROPERTY STRINGS
+                 "Debug"
+                 "Release"
+                 "MinSizeRel"
+                 "RelWithDebInfo")
 endif()
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -65,15 +74,20 @@ check_big_endian(WORDS_BIGENDIAN)
 include(GNUInstallDirs)
 
 if(POLICY CMP0099)
-  cmake_policy(SET CMP0099 NEW)
+    cmake_policy(SET CMP0099 NEW)
 else()
-  message(WARNING "Your version of CMake is very old. This may cause linking issues if your dependencies are not in your compiler's default search paths.")
+    message(
+        WARNING
+            "Your version of CMake is very old. This may cause linking issues if your dependencies are not in your compiler's default search paths."
+    )
 endif()
 
-option(CMAKE_FIND_PACKAGE_PREFER_CONFIG "Search for package config before using Find modules" ON)
+option(CMAKE_FIND_PACKAGE_PREFER_CONFIG
+       "Search for package config before using Find modules" ON)
 
 if(VCPKG_TOOLCHAIN)
-    set(ENV{PKG_CONFIG_PATH} "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/pkgconfig")
+    set(ENV{PKG_CONFIG_PATH}
+        "${VCPKG_INSTALLED_DIR}/${VCPKG_TARGET_TRIPLET}/lib/pkgconfig")
 endif()
 
 if(POLICY CMP0069)
@@ -84,7 +98,12 @@ include(CheckIPOSupported)
 check_ipo_supported(RESULT HAVE_LTO)
 
 include(CMakeDependentOption)
-cmake_dependent_option(ENABLE_LTO "Use link-time optimisation" OFF "HAVE_LTO" OFF)
+cmake_dependent_option(
+    ENABLE_LTO
+    "Use link-time optimisation"
+    OFF
+    "HAVE_LTO"
+    OFF)
 
 set(PACKAGE_NAME "${PROJECT_NAME}")
 set(PACKAGE_TARNAME "viletech")
@@ -134,7 +153,8 @@ if(WITH_IMAGE)
     if(SDL2_image_FOUND)
         set(HAVE_LIBSDL2_IMAGE TRUE)
         if(NOT TARGET SDL2_image::SDL2_image)
-            add_library(SDL2_image::SDL2_image ALIAS SDL2_image::SDL2_image-static)
+            add_library(SDL2_image::SDL2_image ALIAS
+                        SDL2_image::SDL2_image-static)
         endif()
     endif()
 endif()
@@ -181,10 +201,15 @@ else()
 endif()
 
 set(VTEC_BASEDATA_DIR
-	"${DEFAULT_WAD_DIR}"
-	CACHE STRING "Path to install VileTech base data, relative to CMAKE_INSTALL_PREFIX or absolute.")
+    "${DEFAULT_WAD_DIR}"
+    CACHE
+        STRING
+        "Path to install VileTech base data, relative to CMAKE_INSTALL_PREFIX or absolute."
+)
 
-set(DOOMWADDIR "${CMAKE_INSTALL_PREFIX}/${DEFAULT_WAD_DIR}" CACHE PATH "Path to look for WAD files.")
+set(DOOMWADDIR
+    "${CMAKE_INSTALL_PREFIX}/${DEFAULT_WAD_DIR}"
+    CACHE PATH "Path to look for WAD files.")
 
 if(IS_ABSOLUTE "${VTEC_BASEDATA_DIR}")
     set(VTEC_ABSOLUTE_PWAD_PATH "${VTEC_BASEDATA_DIR}")
@@ -192,7 +217,10 @@ else()
     set(VTEC_ABSOLUTE_PWAD_PATH "${CMAKE_INSTALL_PREFIX}/${VTEC_BASEDATA_DIR}")
 endif()
 
-option(SIMPLECHECKS "Enable checks which only impose significant overhead if a posible error is detected" ON)
+option(
+    SIMPLECHECKS
+    "Enable checks which only impose significant overhead if a posible error is detected"
+    ON)
 
 # Debug options, disabled by default
 option(RANGECHECK "Enable internal range checking" OFF)
@@ -206,7 +234,9 @@ if(FORCE_CROSSCOMPILE)
 endif()
 
 if(CMAKE_CROSSCOMPILING)
-    set(IMPORT_EXECUTABLES "IMPORTFILE-NOTFOUND" CACHE FILEPATH "Export file from native build")
+    set(IMPORT_EXECUTABLES
+        "IMPORTFILE-NOTFOUND"
+        CACHE FILEPATH "Export file from native build")
     include(${IMPORT_EXECUTABLES})
 else()
     if(NOT CROSS_EXPORTS)
@@ -222,7 +252,8 @@ add_subdirectory(data)
 add_subdirectory(src)
 
 if(NOT CMAKE_CROSSCOMPILING)
-    export(TARGETS ${CROSS_EXPORTS} FILE "${CMAKE_BINARY_DIR}/ImportExecutables.cmake")
+    export(TARGETS ${CROSS_EXPORTS}
+           FILE "${CMAKE_BINARY_DIR}/ImportExecutables.cmake")
 endif()
 
 if(WIN32)
