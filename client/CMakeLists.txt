@@ -87,8 +87,8 @@ include(CMakeDependentOption)
 cmake_dependent_option(ENABLE_LTO "Use link-time optimisation" OFF "HAVE_LTO" OFF)
 
 set(PACKAGE_NAME "${PROJECT_NAME}")
-set(PACKAGE_TARNAME "dsda-doom")
-set(WAD_DATA "dsda-doom.wad")
+set(PACKAGE_TARNAME "viletech")
+set(WAD_DATA "viletech.wad")
 set(PACKAGE_VERSION "${PROJECT_VERSION}")
 set(PACKAGE_STRING "${PROJECT_NAME} ${PROJECT_VERSION}")
 
@@ -113,7 +113,7 @@ include(GetAvailableFlags)
 
 get_supported_warnings(SUPPORTED_WARNINGS)
 get_fast_math_flag(FAST_MATH_FLAG)
-get_compile_definitions(DSDA_COMPILE_DEFINITIONS)
+get_compile_definitions(VTEC_COMPILE_DEFINITIONS)
 get_deprecation_silencing_definitions(DEPRECATION_SILENCING_DEFINITIONS)
 
 include(PkgConfigHelper)
@@ -180,13 +180,16 @@ else()
     set(DEFAULT_WAD_DIR "${CMAKE_INSTALL_DATADIR}/games/doom")
 endif()
 
-set(DSDAPWADDIR "${DEFAULT_WAD_DIR}" CACHE STRING "Path to install DSDA-Doom internal WAD, relative to CMAKE_INSTALL_PREFIX or absolute.")
+set(VTEC_BASEDATA_DIR
+	"${DEFAULT_WAD_DIR}"
+	CACHE STRING "Path to install VileTech base data, relative to CMAKE_INSTALL_PREFIX or absolute.")
+
 set(DOOMWADDIR "${CMAKE_INSTALL_PREFIX}/${DEFAULT_WAD_DIR}" CACHE PATH "Path to look for WAD files.")
 
-if(IS_ABSOLUTE "${DSDAPWADDIR}")
-    set(DSDA_ABSOLUTE_PWAD_PATH "${DSDAPWADDIR}")
+if(IS_ABSOLUTE "${VTEC_BASEDATA_DIR}")
+    set(VTEC_ABSOLUTE_PWAD_PATH "${VTEC_BASEDATA_DIR}")
 else()
-    set(DSDA_ABSOLUTE_PWAD_PATH "${CMAKE_INSTALL_PREFIX}/${DSDAPWADDIR}")
+    set(VTEC_ABSOLUTE_PWAD_PATH "${CMAKE_INSTALL_PREFIX}/${VTEC_BASEDATA_DIR}")
 endif()
 
 option(SIMPLECHECKS "Enable checks which only impose significant overhead if a posible error is detected" ON)
@@ -211,9 +214,9 @@ else()
     endif()
 endif()
 
-set(DSDA_OUTPUT_PATH ${CMAKE_BINARY_DIR})
+set(VTEC_OUTPUT_PATH ${CMAKE_BINARY_DIR})
 
-set(WAD_DATA_PATH "${DSDA_OUTPUT_PATH}/${WAD_DATA}")
+set(WAD_DATA_PATH "${VTEC_OUTPUT_PATH}/${WAD_DATA}")
 
 add_subdirectory(data)
 add_subdirectory(src)

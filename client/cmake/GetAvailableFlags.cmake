@@ -76,8 +76,7 @@ function(get_deprecation_silencing_definitions outvar)
       PARENT_SCOPE)
 endfunction()
 
-# Sets `outvar` to the list of compile definitions used by the dsda-doom
-# executable
+# Sets `outvar` to the list of compile definitions used by the executable.
 function(get_compile_definitions outvar)
   set(_required_definitions "HAVE_CONFIG_H")
 

@@ -1,7 +1,7 @@
 Basic Installation (ZIP, tarball, Git)
 ==================
 
-  1. To compile DSDA-Doom, you need at least SDL2. To enable various
+  1. To compile VileTech, you need at least SDL2. To enable various
      extensions and optional features, the following are required:
      - SDL2_image (for high-res textures in OpenGL, and PNG screenshots)
      - for music support, some or all of
@@ -41,10 +41,10 @@ Basic Installation (ZIP, tarball, Git)
      instructions. I have tested BSD pmake and it works fine.
 
   4. Type `make install/strip' as root, to install the programs, data files
-     and man pages for DSDA-Doom. If you don't have root access on the machine,
+     and man pages for VileTech. If you don't have root access on the machine,
      you should ask the syadmin to do this and the next step for you.
 
-     If you want to install manually then you should put the `dsda-doom.wad`
+     If you want to install manually then you should put the `viletech.wad`
      in /usr/local/share/games/doom/ (or symlink it from there).
 
   5. Copy your Doom, Doom 2, Ultimate Doom or Final Doom IWAD (doom.wad or
@@ -65,8 +65,8 @@ Basic Installation (ZIP, tarball, Git)
      all sorts of other programs in order to regenerate files that came
      with the distribution.
 
-  7. DSDA-Doom is now ready for use. If /usr/local/games is in your path,
-     you can just run dsda-doom; otherwise give the full path.
+  7. VileTech is now ready for use. If /usr/local/games is in your path,
+     you can just run viletech; otherwise give the full path.
 
 
 
@@ -74,7 +74,7 @@ Building an RPM
 ===============
 
 If you are on a system which uses the RPM packaging format, you might prefer
-to build an RPM containing the DSDA-Doom binaries rather than installing them
+to build an RPM containing the VileTech binaries rather than installing them
 directly. Follow steps 1 and 2 above, then run a "make rpm". This performs
 the usual proceedure for building the rpm in /usr/src/redhat/. Note that
 the RPM sets its own parameters to ./configure; if you want to override

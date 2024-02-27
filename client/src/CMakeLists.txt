@@ -475,7 +475,7 @@ set(EXTRA_FILES
     r_drawflush.inl
 )
 
-set(DSDA_SOURCES
+set(VTEC_SOURCES
     ${COMMON_SRC}
     ${NET_CLIENT_SRC}
     ${WAD_SRC}
@@ -531,7 +531,7 @@ function(AddGameExecutable TARGET SOURCES)
 
     target_compile_definitions(${TARGET} PRIVATE
         ${DEPRECATION_SILENCING_DEFINITIONS}
-        ${DSDA_COMPILE_DEFINITIONS}
+        ${VTEC_COMPILE_DEFINITIONS}
     )
 
     target_include_directories(${TARGET} PRIVATE
@@ -555,7 +555,7 @@ function(AddGameExecutable TARGET SOURCES)
     endif()
 
     set_target_properties(${TARGET} PROPERTIES
-        RUNTIME_OUTPUT_DIRECTORY ${DSDA_OUTPUT_PATH}
+        RUNTIME_OUTPUT_DIRECTORY ${VTEC_OUTPUT_PATH}
         INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO}
         C_STANDARD 99
     )
@@ -584,15 +584,15 @@ function(AddGameExecutable TARGET SOURCES)
         target_link_libraries(${TARGET} PRIVATE PortMidi::portmidi)
     endif()
 
-    add_dependencies(${TARGET} dsda-doom-wad)
+    add_dependencies(${TARGET} viletech-basedata)
 
     if(MSVC)
         set_target_properties(${TARGET} PROPERTIES
             LINK_FLAGS "/MANIFEST:NO /SUBSYSTEM:CONSOLE"
         )
         add_custom_command(TARGET ${TARGET} POST_BUILD
-            COMMAND "mt.exe" -manifest \"${CMAKE_CURRENT_SOURCE_DIR}\\..\\ICONS\\dsda-doom.exe.manifest\" -outputresource:\"$<TARGET_FILE:dsda-doom>\"\;\#1
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${WAD_DATA_PATH} $<TARGET_FILE_DIR:dsda-doom>
+            COMMAND "mt.exe" -manifest \"${CMAKE_CURRENT_SOURCE_DIR}\\..\\ICONS\\viletech.exe.manifest\" -outputresource:\"$<TARGET_FILE:viletech>\"\;\#1
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${WAD_DATA_PATH} $<TARGET_FILE_DIR:viletech>
         )
     elseif(WIN32)
         set_target_properties(${TARGET} PROPERTIES
@@ -601,9 +601,9 @@ function(AddGameExecutable TARGET SOURCES)
     endif()
 
     if(WIN32)
-        set(DSDA_BINARY_INSTALL_DIR ".")
+        set(VTEC_BINARY_INSTALL_DIR ".")
     else()
-        set(DSDA_BINARY_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}")
+        set(VTEC_BINARY_INSTALL_DIR "${CMAKE_INSTALL_BINDIR}")
     endif()
 
     if(CMAKE_VERSION VERSION_GREATER 3.20 AND NOT VCPKG_TOOLCHAIN AND WIN32)
@@ -613,11 +613,11 @@ function(AddGameExecutable TARGET SOURCES)
                 PRE_EXCLUDE_REGEXES "api-ms-" "ext-ms-"
                 POST_EXCLUDE_REGEXES ".*system32/.*\\.dll"
                 DIRECTORIES $<TARGET_FILE_DIR:${TARGET}> $ENV{PATH}
-            RUNTIME DESTINATION "${DSDA_BINARY_INSTALL_DIR}"
+            RUNTIME DESTINATION "${VTEC_BINARY_INSTALL_DIR}"
             COMPONENT "Game executable"
         )
     else()
-        install(TARGETS ${TARGET} COMPONENT "Game executable" RUNTIME DESTINATION "${DSDA_BINARY_INSTALL_DIR}")
+        install(TARGETS ${TARGET} COMPONENT "Game executable" RUNTIME DESTINATION "${VTEC_BINARY_INSTALL_DIR}")
     endif()
 
     target_link_libraries(${TARGET} PRIVATE
@@ -663,4 +663,4 @@ function(AddGameExecutable TARGET SOURCES)
 	endif()
 endfunction()
 
-AddGameExecutable(viletech "${DSDA_SOURCES}")
+AddGameExecutable(viletech "${VTEC_SOURCES}")

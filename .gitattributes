@@ -3,7 +3,7 @@ client/ICONS/Makefile.am eol=lf
 client/ICONS/prboom-plus.bash -text
 client/ICONS/prboom-plus.desktop -text
 client/ICONS/prboom-plus.exe.manifest -text
-client/ICONS/dsda-doom.ico -text
+client/ICONS/viletech.ico -text
 client/Makefile.am eol=lf
 client/VisualC6/Doom.dsp eol=crlf
 client/VisualC6/Doom.dsw eol=crlf

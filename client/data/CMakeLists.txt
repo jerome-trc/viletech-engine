@@ -411,5 +411,5 @@ add_custom_command(
     COMMAND rdatawad -I "${CMAKE_CURRENT_SOURCE_DIR}" ${WAD_CMDLINE} -o "${WAD_DATA_PATH}"
     DEPENDS rdatawad ${WAD_SRC}
 )
-add_custom_target(dsda-doom-wad DEPENDS ${WAD_DATA_PATH})
-install(FILES ${WAD_DATA_PATH} DESTINATION ${DSDAPWADDIR} COMPONENT "DSDA-Doom internal WAD")
+add_custom_target(viletech-basedata DEPENDS ${WAD_DATA_PATH})
+install(FILES ${WAD_DATA_PATH} DESTINATION ${VTEC_BASEDATA_DIR} COMPONENT "VileTech Internal Data")
