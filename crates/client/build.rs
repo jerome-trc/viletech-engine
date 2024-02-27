@@ -10,11 +10,7 @@ fn main() {
 	config.macro_expansion.bitflags = true;
 	config.structure.associated_constants_in_body = true;
 
-	gen_header(&mut config, "", "viletech.hpp", &[]);
-
-	cbindgen::generate_with_config(std::env::var("CARGO_MANIFEST_DIR").unwrap(), config.clone())
-		.expect("binding generation failed")
-		.write_to_file("build/viletech.hpp");
+	gen_header(&mut config, "", "viletech.rs.hpp", &[]);
 }
 
 fn gen_header(

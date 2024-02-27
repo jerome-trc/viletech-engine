@@ -34,7 +34,7 @@ extern "C" {
 #include "dsda/zipfile.h"
 }
 
-#include "viletech.hpp"
+#include "viletech.rs.hpp"
 #include "core.hpp"
 
 /* Most of the following has been rewritten by Lee Killough
