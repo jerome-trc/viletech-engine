@@ -1,8 +1,22 @@
-* text=auto !eol
+* text=auto
+
+/Cargo.lock text eol=lf
+*.cpp text eol=lf
+*.hpp text eol=lf
+*.c text eol=lf
+*.h text eol=lf
+*.md text eol=lf
+*.rs text eol=lf
+*.svg text eol=lf
+*.toml text eol=lf
+*.txt text eol=lf
+*.glsl text eol=lf
+.vs/CMakeWorkspaceSettings.json text eol=crlf
+
 client/ICONS/Makefile.am eol=lf
-client/ICONS/prboom-plus.bash -text
-client/ICONS/prboom-plus.desktop -text
-client/ICONS/prboom-plus.exe.manifest -text
+client/ICONS/viletech.bash -text
+client/ICONS/viletech.desktop -text
+client/ICONS/viletech.exe.manifest -text
 client/ICONS/viletech.ico -text
 client/Makefile.am eol=lf
 client/VisualC6/Doom.dsp eol=crlf
@@ -384,4 +398,3 @@ client/tests/heightlist_overflow.wad -text
 client/tests/missed_back_side.zip -text
 client/tests/sky.wad -text
 client/tests/weaponinfo.wad -text
-.vs/CMakeWorkspaceSettings.json text eol=crlf
