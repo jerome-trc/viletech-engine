@@ -1,0 +1,9 @@
+/// @file
+/// @brief Wraps `<type_traits>`, adds niceties.
+
+#include <type_traits>
+
+namespace std {
+	template<class T, class U>
+	using IsSame = is_same<T, U>;
+}
