@@ -536,8 +536,7 @@ function(AddGameExecutable TARGET SOURCES)
     set_target_properties(
         ${TARGET}
         PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${VTEC_OUTPUT_PATH}
-                   INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO}
-                   C_STANDARD 99)
+                   INTERPROCEDURAL_OPTIMIZATION ${ENABLE_LTO})
 
     if(HAVE_LIBSDL2_IMAGE)
         target_link_libraries(${TARGET} PRIVATE SDL2_image::SDL2_image)
