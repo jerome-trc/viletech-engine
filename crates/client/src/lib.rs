@@ -1,6 +1,8 @@
-//! # VileTech: CLAP
+//! # VileTech Client
 //!
-//! Command line argument parsing.
+//! The Rust component of the VileTech Client.
+
+pub mod icon;
 
 use clap::Parser;
 

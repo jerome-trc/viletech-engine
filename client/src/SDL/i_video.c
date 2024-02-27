@@ -32,6 +32,8 @@
  *-----------------------------------------------------------------------------
  */
 
+#include <SDL_image.h>
+#include <SDL_rwops.h>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -43,6 +45,7 @@
 #include <windows.h>
 #endif // _WIN32
 
+#include <assert.h>
 #include <stdlib.h>
 
 #ifdef HAVE_UNISTD_H
@@ -1152,27 +1155,26 @@ void I_SetWindowCaption(void)
   SDL_SetWindowTitle(NULL, PACKAGE_NAME " " PACKAGE_VERSION);
 }
 
-//
-// Set the application icon
-//
-
 #include "icon.c"
 
-void I_SetWindowIcon(void)
-{
-  static SDL_Surface *surface = NULL;
+/// @fn I_SetWindowIcon
+void I_SetWindowIcon(void) {
+  const uint8_t* window_icon_bytes(int32_t* size);
+
+  static SDL_Surface* surface = NULL;
 
   // do it only once, because of crash in SDL_InitVideoMode in SDL 1.3
-  if (!surface)
-  {
-    surface = SDL_CreateRGBSurfaceFrom(icon_data,
-      icon_w, icon_h, 32, icon_w * 4,
-      0xff << 0, 0xff << 8, 0xff << 16, 0xff << 24);
+  if (!surface) {
+	int32_t size = -1;
+	const uint8_t* bytes = window_icon_bytes(&size);
+	assert(bytes != NULL);
+	SDL_RWops* rwop = SDL_RWFromConstMem((void*)bytes, size);
+	assert(rwop != NULL);
+	surface = IMG_LoadPNG_RW(rwop);
   }
 
-  if (surface)
-  {
-    SDL_SetWindowIcon(NULL, surface);
+  if (surface != NULL) {
+	SDL_SetWindowIcon(sdl_window, surface);
   }
 }
 
