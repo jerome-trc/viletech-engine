@@ -15,3 +15,9 @@
 #define s_cast static_cast
 #define d_cast dynamic_cast
 #define r_cast reinterpret_cast
+
+#if defined(_GLIBCXX_CSTRING) || defined(_STRING_H)
+[[nodiscard]] static inline bool streq(const char* a, const char* b) {
+	return strcmp(a, b) == 0;
+}
+#endif
