@@ -4,6 +4,7 @@
 
 - Defer to the top-level .clang-format file.
 
+- Annotate *all* functions with `/// @fn function_name` to make it easier to search for functions when the return type is not known.
 - Do not declare fields as `const`.
 - Enumeration variant names are in `UPPER_SNAKE_CASE`.
 - Function names are in `lower_snake_case`.

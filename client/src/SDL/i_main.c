@@ -49,20 +49,16 @@
 
 #include <errno.h>
 
-#include "doomdef.h"
 #include "d_main.h"
-#include "m_fixed.h"
 #include "i_system.h"
 #include "i_video.h"
 #include "z_zone.h"
 #include "lprintf.h"
-#include "m_random.h"
 #include "doomstat.h"
 #include "g_game.h"
 #include "m_misc.h"
 #include "i_sound.h"
 #include "i_main.h"
-#include "r_fps.h"
 #include "lprintf.h"
 
 #include <signal.h>
@@ -71,12 +67,10 @@
 
 #include "e6y.h"
 
-#include "dsda.h"
 #include "dsda/args.h"
 #include "dsda/analysis.h"
 #include "dsda/args.h"
 #include "dsda/endoom.h"
-#include "dsda/settings.h"
 #include "dsda/signal_context.h"
 #include "dsda/split_tracker.h"
 #include "dsda/text_file.h"
@@ -132,6 +126,7 @@ static void I_SignalHandler(int s)
 
 static void I_IntHandler(int s)
 {
+  (void)s;
   interrupted = 1;
 }
 
@@ -146,9 +141,9 @@ static void PrintVer(void)
 // is due to an error (I_Error)
 // Copyright(C) 2005-2014 Simon Howard
 
-typedef struct atexit_listentry_s atexit_listentry_t;
+typedef struct AtExitListEntry atexit_listentry_t;
 
-struct atexit_listentry_s
+struct AtExitListEntry
 {
     atexit_func_t func;
     dboolean run_on_error;
@@ -262,8 +257,7 @@ void I_SetProcessPriority(void)
   }
 }
 
-//int main(int argc, const char * const * argv)
-int main(int argc, char **argv)
+int _main(int argc, char **argv)
 {
   dsda_ParseCommandLineArgs(argc, argv);
 

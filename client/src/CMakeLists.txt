@@ -1,4 +1,6 @@
 set(COMMON_SRC
+	main.cpp
+
     am_map.c
     am_map.h
     doomdata.h
@@ -538,6 +540,8 @@ function(AddGameExecutable TARGET SOURCES)
         ${SDL2_INCLUDE_DIRS}
         ${CMAKE_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
+		../../engine/src
+		../../depend
     )
 
     target_link_libraries(${TARGET} PRIVATE
