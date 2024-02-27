@@ -10,11 +10,6 @@ if(WITH_FLUIDSYNTH)
     list(APPEND VCPKG_MANIFEST_FEATURES "fluidsynth")
 endif()
 
-option(WITH_IMAGE "Use SDL2_image if available" ON)
-if(WITH_IMAGE)
-    list(APPEND VCPKG_MANIFEST_FEATURES "sdl2-image")
-endif()
-
 option(WITH_MAD "Use libmad if available" ON)
 if(WITH_MAD)
     list(APPEND VCPKG_MANIFEST_FEATURES "libmad")
@@ -148,15 +143,15 @@ if(NOT TARGET SDL2_mixer::SDL2_mixer)
     add_library(SDL2_mixer::SDL2_mixer ALIAS SDL2_mixer::SDL2_mixer-static)
 endif()
 
-if(WITH_IMAGE)
-    find_package(SDL2_image)
-    if(SDL2_image_FOUND)
-        set(HAVE_LIBSDL2_IMAGE TRUE)
-        if(NOT TARGET SDL2_image::SDL2_image)
-            add_library(SDL2_image::SDL2_image ALIAS
-                        SDL2_image::SDL2_image-static)
-        endif()
-    endif()
+list(APPEND VCPKG_MANIFEST_FEATURES "sdl2-image")
+find_package(SDL2_image)
+
+if(SDL2_image_FOUND)
+	set(HAVE_LIBSDL2_IMAGE TRUE)
+	if(NOT TARGET SDL2_image::SDL2_image)
+		add_library(SDL2_image::SDL2_image ALIAS
+					SDL2_image::SDL2_image-static)
+	endif()
 endif()
 
 if(WITH_MAD)
