@@ -1,10 +1,11 @@
 // Emacs style mode select   -*- C -*-
 
 #include <cstdlib>
-#include <signal.h>
 #include <unistd.h>
 
 extern "C" {
+#include <signal.h>
+
 #include "config.h"
 #include "lprintf.h"
 #include "m_misc.h"
@@ -29,13 +30,9 @@ extern "C" {
 #include "dsda/signal_context.h"
 #include "dsda/split_tracker.h"
 #include "dsda/text_file.h"
-#include "dsda/time.h"
 #include "dsda/wad_stats.h"
 #include "dsda/zipfile.h"
 }
-
-#include "viletech.rs.hpp"
-#include "core.hpp"
 
 /* Most of the following has been rewritten by Lee Killough
  *
@@ -109,6 +106,12 @@ static void quit() {
 	dsda_DumpEndoom();
 }
 
+/// @fn print_version
+static void print_version() {
+	char vbuf[200];
+	lprintf(LO_INFO, "%s\n", I_GetVersionString(vbuf, 200));
+}
+
 /// @fn set_process_priority
 void set_process_priority() {
 	int process_priority = dsda_IntConfig(dsda_config_process_priority);
@@ -146,13 +149,31 @@ void set_process_priority() {
 	}
 }
 
-/// @fn main
-int main(int argc, char* argv[]) {
-	(void)argc;
-	(void)argv;
+enum {
+	EXIT_FAIL_ARGS = EXIT_FAILURE + 1,
+};
 
-	auto core = Core::create();
-	vtec::parse_args();
+/// @fn main
+int main(int32_t argc, char* argv[]) {
+	dsda_ParseCommandLineArgs(argc, argv);
+
+	if (dsda_Flag(dsda_arg_verbose))
+		I_EnableVerboseLogging();
+
+	if (dsda_Flag(dsda_arg_quiet))
+		I_DisableAllLogging();
+
+	// Print the version and exit
+	if (dsda_Flag(dsda_arg_v)) {
+		print_version();
+		return 0;
+	}
+
+	// e6y: Check for conflicts.
+	// Conflicting command-line parameters could cause the engine to be confused
+	// in some cases. Added checks to prevent this.
+	// Example: dsda-doom.exe -record mydemo -playdemo demoname
+	ParamsMatchingCheck();
 
 	lprintf(LO_DEBUG, "M_LoadDefaults: Load system defaults.\n");
 	M_LoadDefaults(); // Load before initializing other systems.
@@ -196,7 +217,9 @@ int main(int argc, char* argv[]) {
 	/* cphipps - call to video specific startup code */
 	I_PreInitGraphics();
 
-	D_DoomMain();
+	if (dsda_Flag(dsda_arg_legacy)) {
+		D_DoomMain();
+	}
 
 	return EXIT_SUCCESS;
 }
