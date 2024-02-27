@@ -4,8 +4,7 @@
 #pragma once
 
 #include <cstdint>
-
-#include "prelude.hpp"
+#include <std/type_traits.hpp>
 
 /// A strong fixed-point decimal number type.
 template<typename Inner>
