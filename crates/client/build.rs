@@ -1,6 +1,8 @@
 use std::path::Path;
 
 fn main() {
+	println!("cargo:rerun-if-changed=src");
+
 	let mut config = cbindgen::Config::default();
 	config.language = cbindgen::Language::Cxx;
 	config.include_version = true;
