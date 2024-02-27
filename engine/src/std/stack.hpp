@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<stack>`, adds niceties.
 
+#pragma once
+
 #include <stack>
 
 namespace std {

@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<utility>`, provides niceties.
 
+#pragma once
+
 #include <utility>
 
 namespace std {

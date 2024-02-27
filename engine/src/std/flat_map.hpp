@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<flat_map>`, adds niceties.
 
+#pragma once
+
 #include <flat_map>
 
 namespace std {

@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<unordered_set>`, adds niceties.
 
+#pragma once
+
 #include <unordered_set>
 
 namespace std {

@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<map>`, adds niceties.
 
+#pragma once
+
 #include <map>
 
 namespace std {

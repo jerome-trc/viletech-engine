@@ -1,6 +1,8 @@
 /// @file
 /// @brief Miscellaneous useful things, required broadly.
 
+#pragma once
+
 #define DELETE_COPIERS(type)    \
 	type(const type&) = delete; \
 	type& operator=(const type&) = delete;

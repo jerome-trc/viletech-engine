@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<unordered_map>`, adds niceties.
 
+#pragma once
+
 #include <unordered_map>
 
 namespace std {

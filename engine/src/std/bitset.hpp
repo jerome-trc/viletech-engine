@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<bitset>`, adds niceties.
 
+#pragma once
+
 #include <bitset>
 
 namespace std {

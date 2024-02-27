@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<set>`, adds niceties.
 
+#pragma once
+
 #include <set>
 
 namespace std {

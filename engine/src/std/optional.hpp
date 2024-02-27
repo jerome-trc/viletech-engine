@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<optional>`, adds niceties.
 
+#pragma once
+
 #include <optional>
 
 namespace std {

@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<array>`, adds niceties.
 
+#pragma once
+
 #include <array>
 
 namespace std {

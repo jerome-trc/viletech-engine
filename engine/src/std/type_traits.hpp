@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<type_traits>`, adds niceties.
 
+#pragma once
+
 #include <type_traits>
 
 namespace std {

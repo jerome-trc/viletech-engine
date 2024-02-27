@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<queue>`, adds niceties.
 
+#pragma once
+
 #include <queue>
 
 namespace std {

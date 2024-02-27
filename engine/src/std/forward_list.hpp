@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<forward_list>`, adds niceties.
 
+#pragma once
+
 #include <forward_list>
 
 namespace std {

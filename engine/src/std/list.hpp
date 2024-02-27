@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<list>`, adds niceties.
 
+#pragma once
+
 #include <list>
 
 namespace std {

@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<deque>`, adds niceties.
 
+#pragma once
+
 #include <deque>
 
 namespace std {

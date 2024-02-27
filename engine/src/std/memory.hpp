@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<memory>`, adds niceties.
 
+#pragma once
+
 #include <memory>
 
 namespace std {

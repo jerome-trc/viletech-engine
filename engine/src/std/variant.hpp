@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<vector>`, adds niceties.
 
+#pragma once
+
 #include <variant>
 
 namespace std {

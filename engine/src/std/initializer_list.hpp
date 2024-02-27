@@ -1,6 +1,8 @@
 /// @file
 /// @brief Wraps `<initializer_list>`, adds niceties.
 
+#pragma once
+
 #include <initializer_list>
 
 namespace std {
