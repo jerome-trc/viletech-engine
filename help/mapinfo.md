@@ -1,10 +1,10 @@
 ## MAPINFO
 
-MAPINFO is a lump that allows authors to configure various properties of maps, clusters, episodes, and skills. Most features listed here form a subset of gzdoom's MAPINFO specification - they will be understood by both dsda-doom and gzdoom. Some new additions, marked with a :duck:, fill in some gaps. Only the "new" format of mapinfo is valid in dsda-doom (the curly braces). MAPINFO gives access to many features and flags of particular importance to UDMF maps, including its set of special actions and activation rules, jumping, gravity, and air control. It is recommended to only use MAPINFO with UDMF maps - various flags and behavioral features may lead to undefined behavior in legacy formats.
+MAPINFO is a lump that allows authors to configure various properties of maps, clusters, episodes, and skills. Most features listed here form a subset of gzdoom's MAPINFO specification - they will be understood by both VileTech and gzdoom. Some new additions, marked with a :duck:, fill in some gaps. Only the "new" format of mapinfo is valid in VileTech (the curly braces). MAPINFO gives access to many features and flags of particular importance to UDMF maps, including its set of special actions and activation rules, jumping, gravity, and air control. It is recommended to only use MAPINFO with UDMF maps - various flags and behavioral features may lead to undefined behavior in legacy formats.
 
 ## Usage
 
-By default, dsda-doom does not read MAPINFO. This is done for compatibility purposes, since the MAPINFO lump has been assumed to not be consumed by vanilla-compatible ports. For quick testing, you can temporarily enable MAPINFO parsing via the `-debug_mapinfo` command line option. To enable automatic MAPINFO parsing in your pwad, add a `DSDAPREF` lump containing the line `use_mapinfo` (plain text). See the full specification below.
+By default, VileTech does not read MAPINFO. This is done for compatibility purposes, since the MAPINFO lump has been assumed to not be consumed by vanilla-compatible ports. For quick testing, you can temporarily enable MAPINFO parsing via the `-debug_mapinfo` command line option. To enable automatic MAPINFO parsing in your pwad, add a `DSDAPREF` lump containing the line `use_mapinfo` (plain text). See the full specification below.
 
 ### Map
 

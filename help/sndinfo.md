@@ -1,10 +1,10 @@
 ## SNDINFO
 
-SNDINFO is a lump that allows authors to configure various advanced sound features. In DSDA-Doom, this lump is currently only used to define ambient sound effects.
+SNDINFO is a lump that allows authors to configure various advanced sound features. In VileTech, this lump is currently only used to define ambient sound effects.
 
 ## Usage
 
-Simply include the SNDINFO lump in your wad and dsda-doom will load it.
+Simply include the SNDINFO lump in your wad and VileTech will load it.
 
 ### Specification
 
@@ -12,7 +12,7 @@ In order to reference sound effects, you need to define them:
 
 `<sound_name> = <lump_name>`
 
-Here `sound_name` is the identifier you use when referring to the sound and `lump_name` is the name of the sound effect lump. DSDA-Doom does not have any predefined sounds.
+Here `sound_name` is the identifier you use when referring to the sound and `lump_name` is the name of the sound effect lump. VileTech does not have any predefined sounds.
 
 Once you have defined a sound effect, you can define ambient sound effects like so:
 

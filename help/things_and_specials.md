@@ -1,6 +1,6 @@
 # Things and Specials
 
-This page documents the new thing types and special actions available in advanced map formats in dsda-doom. DSDA-Doom supports both Doom-in-Hexen and UDMF maps. See the [UDMF documentation](./udmf.md) for complete details about the `dsda` namespace.
+This page documents the new thing types and special actions available in advanced map formats in dsda-doom and VileTech. VileTech supports both Doom-in-Hexen and UDMF maps. See the [UDMF documentation](./udmf.md) for complete details about the `dsda` namespace.
 
 ## Thing Types
 
@@ -498,7 +498,7 @@ The following lines are obsolete in udmf.
 
 ## Sector Specials
 
-Many sector specials are legacy effects from the original formats. More control can be obtained from sector properties in UDMF and the above line actions. DSDA-Doom has no concept of "terrain effects" (lava doesn't splash).
+Many sector specials are legacy effects from the original formats. More control can be obtained from sector properties in UDMF and the above line actions. VileTech has no concept of "terrain effects" (lava doesn't splash).
 
 | Number | Name | Description |
 | --- | --- | --- |

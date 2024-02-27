@@ -1,6 +1,6 @@
 ## DSDAPREF Lump
 
-The DSDAPREF lump contains dsda-doom-specific wad preferences.
+The DSDAPREF lump contains dsda-doom-specific wad preferences; VileTech also supports this format.
 
 ### Specification
 

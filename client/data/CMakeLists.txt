@@ -1,4 +1,4 @@
-# PrBoom-Plus WAD creation tool
+# VileTech WAD creation tool
 
 if(NOT CMAKE_CROSSCOMPILING)
     add_executable(rdatawad
@@ -21,7 +21,7 @@ if(NOT CMAKE_CROSSCOMPILING)
     set(CROSS_EXPORTS ${CROSS_EXPORTS} rdatawad PARENT_SCOPE)
 endif()
 
-# PrBoom-Plus internal WAD
+# VileTech internal WAD
 
 set(PALETTE
     palette.rgb
