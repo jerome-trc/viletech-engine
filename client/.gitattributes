@@ -1,0 +1,17 @@
+Makefile.am eol=lf
+autotools/ac_c_compile_flags.m4 eol=lf
+autotools/ac_cpu_optimisations.m4 eol=lf
+make-release.cmd -text
+src/Makefile.am eol=lf
+src/SDL/Makefile.am eol=lf
+src/SDL/SDL_windows.h -text
+src/SDL/SDL_windows_main.c -text
+src/TEXTSCREEN/Makefile.am -text
+src/TEXTSCREEN/txt_largefont.h -text
+src/gl_shader.c -text
+tests/demo-testing.csv -text
+tests/donut_av.wad -text
+tests/heightlist_overflow.wad -text
+tests/missed_back_side.zip -text
+tests/sky.wad -text
+tests/weaponinfo.wad -text

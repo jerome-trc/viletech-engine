@@ -12,21 +12,3 @@
 *.txt text eol=lf
 *.glsl text eol=lf
 .vs/CMakeWorkspaceSettings.json text eol=crlf
-
-client/Makefile.am eol=lf
-client/autotools/ac_c_compile_flags.m4 eol=lf
-client/autotools/ac_cpu_optimisations.m4 eol=lf
-client/make-release.cmd -text
-client/src/Makefile.am eol=lf
-client/src/SDL/Makefile.am eol=lf
-client/src/SDL/SDL_windows.h -text
-client/src/SDL/SDL_windows_main.c -text
-client/src/TEXTSCREEN/Makefile.am -text
-client/src/TEXTSCREEN/txt_largefont.h -text
-client/src/gl_shader.c -text
-client/tests/demo-testing.csv -text
-client/tests/donut_av.wad -text
-client/tests/heightlist_overflow.wad -text
-client/tests/missed_back_side.zip -text
-client/tests/sky.wad -text
-client/tests/weaponinfo.wad -text
