@@ -29,7 +29,7 @@ git clone https://github.com/jerome-trc/viletech-engine.git
 Prepare the build folder, generate the build system, and compile:
 ```
 cd viletech
-cmake -Sclient -Bbuild -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=ON
+cmake -Sengine -Bbuild -DCMAKE_BUILD_TYPE=Release -DENABLE_LTO=ON
 cmake --build build
 ```
 

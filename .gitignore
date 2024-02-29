@@ -22,8 +22,8 @@ CMakeSettings.json
 CMakeUserPresets.json
 
 # Build artifacts ##############################################################
-/client/ICONS/icons.aps
-/client/release
+/engine/ICONS/icons.aps
+/engine/release
 /build*
 /release*
 /target

@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["crates/client"]
-default-members = ["crates/client"]
+members = ["client"]
+default-members = ["client"]
 
 [workspace.package]
 edition = "2021"
@@ -23,5 +23,7 @@ strip = false
 
 [workspace.dependencies]
 clap = { version = "4.4.7", features = ["derive"] }
+
 # Build only
+bindgen = "0.69.4"
 cbindgen = "0.26.0"

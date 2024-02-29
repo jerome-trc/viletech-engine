@@ -10,4 +10,4 @@ Each line of the DSDATC lump has a text component and a color index:
 
 Various elements of the extended hud, the automap, and the menus can be changed. The color indices correspond to entries in the [DSDACR lump](./color_range.md).
 
-You can find the current default configuration [here](../client/data/lumps/dsdatc.lmp).
+You can find the current default configuration [here](../engine/data/lumps/dsdatc.lmp).

@@ -1,6 +1,9 @@
 //! Embedded window icon data.
 
-pub static WINDOW_ICON: &[u8] = include_bytes!("../../../client/ICONS/viletech.png");
+pub static WINDOW_ICON: &[u8] = include_bytes!(concat!(
+	env!("CARGO_WORKSPACE_DIR"),
+	"/engine/ICONS/viletech.png"
+));
 
 #[no_mangle]
 pub unsafe extern "C" fn window_icon_bytes(size: *mut i32) -> *const u8 {

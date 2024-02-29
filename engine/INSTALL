@@ -19,7 +19,7 @@ Basic Installation (ZIP, tarball, Git)
     You will also need `cmake` and `make` if you haven't already got them.
 
   2. `cd` to the directory containing the VileTech distribution (the directory
-     this file is in, `client`).
+     this file is in, `engine`).
 
      Create a new `build` folder and `cd` into it.
      `mkdir build && cd build`

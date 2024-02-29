@@ -78,6 +78,8 @@
 #include "dsda/wad_stats.h"
 #include "dsda/zipfile.h"
 
+#include "viletech.rs.h"
+
 /* Most of the following has been rewritten by Lee Killough
  *
  * killough 4/13/98: Make clock rate adjustable by scale factor
@@ -257,7 +259,11 @@ void I_SetProcessPriority(void)
   }
 }
 
-int _main(int argc, char **argv)
+dboolean streq(const char* a, const char* b) {
+	return strcmp(a, b) == 0;
+}
+
+int main(int argc, char **argv)
 {
   dsda_ParseCommandLineArgs(argc, argv);
 
@@ -327,6 +333,12 @@ int _main(int argc, char **argv)
   /* cphipps - call to video specific startup code */
   I_PreInitGraphics();
 
-  D_DoomMain ();
-  return 0;
+	for (int32_t i = 0; i < argc; i += 1) {
+		if (streq(argv[i], "--legacy") || streq(argv[i], "-l")) {
+			return rs_main();
+		}
+	}
+
+	D_DoomMain ();
+	return EXIT_SUCCESS;
 }

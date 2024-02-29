@@ -1,5 +1,4 @@
 set(COMMON_SRC
-    main.cpp
     am_map.c
     am_map.h
     doomdata.h

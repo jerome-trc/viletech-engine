@@ -16,4 +16,4 @@ Each line of the DSDACR lump is plain text in the following format:
 
 `color_range_index r1 g1 b1 r2 g2 b2 comment`
 
-The `color_range_index` specifies which range will be replaced. The color range extends from (`r1`, `g1`, `b1`) to (`r2`, `g2`, `b2`) in the `rgb` color space. The `comment` field is optional and only exists for convenience (e.g., to label the colors). You can find the current default configuration [here](../client/data/lumps/dsdacr.lmp).
+The `color_range_index` specifies which range will be replaced. The color range extends from (`r1`, `g1`, `b1`) to (`r2`, `g2`, `b2`) in the `rgb` color space. The `comment` field is optional and only exists for convenience (e.g., to label the colors). You can find the current default configuration [here](../engine/data/lumps/dsdacr.lmp).

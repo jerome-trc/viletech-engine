@@ -144,7 +144,7 @@ jobs:
 
       - name: Configure
         run: |
-          cmake -S client \
+          cmake -S engine \
             -B build \
             -DCMAKE_BUILD_TYPE=${{ matrix.config.build_type }} \
             ${{ matrix.config.extra_options }}

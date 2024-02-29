@@ -20,4 +20,5 @@ crate-type = ["staticlib"]
 clap.workspace = true
 
 [build-dependencies]
+bindgen.workspace = true
 cbindgen.workspace = true

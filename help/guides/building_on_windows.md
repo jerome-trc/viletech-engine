@@ -50,7 +50,7 @@ By default, the CMake integration only provides an `x64-Debug` configuration. To
 
 On the left, you should see a list of all the configurations you have, click the green + at the top and search for `x64-Release`. After adding it, you should now be able to switch configuration at the top. This menu also lets you customise the CMake cache and set defaults.
 
-To install a build, select "Build" and then "Install VileTech". The default directories for build and install are, respectively, `client/out/build/<config>` and `client/out/install/<config>`.
+To install a build, select "Build" and then "Install VileTech". The default directories for build and install are, respectively, `engine/out/build/<config>` and `engine/out/install/<config>`.
 
 ### Building from the terminal
 
@@ -64,7 +64,7 @@ Run the CMake configuration:
 
 ```
 cd viletech
-cmake -Sclient -Bbuild -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DENABLE_LTO=ON
+cmake -Sengine -Bbuild -DCMAKE_TOOLCHAIN_FILE="C:\vcpkg\scripts\buildsystems\vcpkg.cmake" -DENABLE_LTO=ON
 ```
 
 During this step, vcpkg will build all the dependencies. If vcpkg does not get invoked or CMake fails at finding the dependencies, delete the build directory and make sure the path to the `vcpkg.cmake` toolchain is correct.
@@ -99,7 +99,7 @@ If you use the CMake Tools extension, you will need to:
 - Set your workspace settings to tell CMake Tools the location of the CMakeLists.txt:
 
 ```json
-"cmake.sourceDirectory": "${workspaceFolder}/client"
+"cmake.sourceDirectory": "${workspaceFolder}/engine"
 ```
 
 - Create a new kit (preferably a copy of the one you want to use), and add this key to it:
@@ -138,7 +138,7 @@ Run the CMake configuration:
 
 ```
 cd viletech-engine
-cmake -Sclient -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
+cmake -Sengine -Bbuild -GNinja -DCMAKE_BUILD_TYPE=Release
 ```
 
 CMake does not appear to support LTO properly for MinGW GCC which results in much longer linking time. Consider only enabling it when making a release.

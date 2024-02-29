@@ -1,4 +1,4 @@
 {
   "enableCMake": true,
-  "sourceDirectory": "client"
+  "sourceDirectory": "engine"
 }
