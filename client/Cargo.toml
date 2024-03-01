@@ -17,6 +17,7 @@ name = "vtclient"
 crate-type = ["staticlib"]
 
 [dependencies]
+bevy_ecs.workspace = true
 bitflags.workspace = true
 clap.workspace = true
 egui.workspace = true

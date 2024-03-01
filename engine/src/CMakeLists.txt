@@ -517,7 +517,7 @@ function(AddGameExecutable TARGET SOURCES)
         PRIVATE ${SDL2_INCLUDE_DIRS}
                 ${CMAKE_BINARY_DIR}
                 ${CMAKE_CURRENT_SOURCE_DIR}
-                ../../engine/src)
+                "${CMAKE_BINARY_DIR}")
 
     target_include_directories(${TARGET} SYSTEM PRIVATE ../../depend)
 

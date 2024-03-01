@@ -117,8 +117,9 @@
 
 // NSM
 #include "i_capture.h"
-
 #include "i_glob.h"
+
+#include "viletech.rs.h"
 
 static void D_PageDrawer(void);
 

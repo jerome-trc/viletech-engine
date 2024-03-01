@@ -27,12 +27,12 @@ fn generate_c_bindings() {
 
 	{
 		config.language = cbindgen::Language::C;
+		config.export.prefix = Some("rs_".to_string());
 		config.include_version = true;
-		config.no_includes = true;
 		config.pragma_once = true;
 		config.macro_expansion.bitflags = true;
 
-		gen_header(&mut config, "", "viletech.rs.h", &[]);
+		gen_header(&mut config, "", "viletech.rs.h", &["CGlobal"]);
 	}
 }
 

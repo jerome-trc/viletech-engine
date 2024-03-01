@@ -22,6 +22,7 @@ lto = "thin"
 strip = false
 
 [workspace.dependencies]
+bevy_ecs = "0.13.0"
 bitflags = "2.4.2"
 clap = { version = "4.4.7", features = ["derive"] }
 egui = "0.26.2"
