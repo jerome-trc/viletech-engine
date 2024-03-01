@@ -2,6 +2,7 @@
 //!
 //! The interface via which an end user plays games on the VileTech Engine.
 
+pub mod actor;
 pub mod icon;
 
 use std::path::PathBuf;
