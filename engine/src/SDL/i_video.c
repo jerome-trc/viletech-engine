@@ -1155,8 +1155,6 @@ void I_SetWindowCaption(void)
   SDL_SetWindowTitle(NULL, PACKAGE_NAME " " PACKAGE_VERSION);
 }
 
-#include "icon.c"
-
 /// @fn I_SetWindowIcon
 void I_SetWindowIcon(void) {
   const uint8_t* window_icon_bytes(int32_t* size);
