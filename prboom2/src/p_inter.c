@@ -543,7 +543,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       break;
 
     case SPR_SOUL: {
-      int diff = (player->health - 200) + 100;
+      int diff = (player->health - max_soul) + soul_health;
 
       if (diff < 0)
         diff = 0;
@@ -574,7 +574,7 @@ void P_TouchSpecialThing(mobj_t *special, mobj_t *toucher)
       if (gamemode != commercial)
         return;
 
-      int diff_health = MAX(0, (player->health - 200) + 200);
+      int diff_health = MAX(0, (player->health - mega_health) + mega_health);
       int diff_armor = MAX(0, (player->armorpoints[ARMOR_ARMOR] - 200) + 200);
 
       player->health = mega_health;
