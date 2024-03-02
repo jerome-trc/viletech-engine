@@ -34,7 +34,7 @@ endif()
 set(CMAKE_POLICY_DEFAULT_CMP0077 NEW)
 set(X_VCPKG_APPLOCAL_DEPS_INSTALL TRUE)
 
-project("dsda-doom" VERSION 0.27.5)
+project("rat-doom" VERSION 0.0.1)
 
 # Set a default build type if none was specified
 set(default_build_type "RelWithDebInfo")
@@ -77,7 +77,7 @@ include(CMakeDependentOption)
 cmake_dependent_option(ENABLE_LTO "Use link-time optimisation" OFF "HAVE_LTO" OFF)
 
 set(PACKAGE_NAME "${PROJECT_NAME}")
-set(PACKAGE_TARNAME "dsda-doom")
+set(PACKAGE_TARNAME "rat-doom")
 set(WAD_DATA "dsda-doom.wad")
 set(PACKAGE_VERSION "${PROJECT_VERSION}")
 set(PACKAGE_STRING "${PROJECT_NAME} ${PROJECT_VERSION}")

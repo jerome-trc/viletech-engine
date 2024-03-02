@@ -138,7 +138,8 @@ static void I_IntHandler(int s)
 static void PrintVer(void)
 {
   char vbuf[200];
-  lprintf(LO_INFO,"%s\n",I_GetVersionString(vbuf,200));
+  lprintf(LO_INFO,"%s ()\n",I_GetVersionString(vbuf,200));
+  lprintf(LO_INFO, "Compiled on %s, %s\n", __DATE__, __TIME__);
 }
 
 // Schedule a function to be called when the program exits.
