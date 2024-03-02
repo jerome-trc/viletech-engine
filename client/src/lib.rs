@@ -3,18 +3,15 @@
 //! The interface via which an end user plays games on the VileTech Engine.
 
 pub mod actor;
+pub mod c;
 pub mod icon;
 
 use std::path::PathBuf;
 
 use bevy_ecs::world::World;
-use bitflags::Flags;
 use clap::Parser;
 
 pub type Angle = u32;
-
-#[no_mangle]
-pub static mut g_cx: *mut CGlobal = std::ptr::null_mut();
 
 pub struct Core {
 	pub world: World,
@@ -22,23 +19,21 @@ pub struct Core {
 }
 
 /// Parts of [`Core`] that are FFI-safe.
+///
+/// See the [`c`] module for many associated functions.
 #[repr(C)]
 pub struct CGlobal {
-	// pub no_sfx: bool,
-	pub pause: PauseMode,
+	pub no_sfx: bool,
+	pub pause: Pause,
 }
 
-// impl CGlobal {
-	// #[no_mangle]
-	// #[must_use]
-	// pub unsafe extern "C" fn paused(this: *const Self) -> bool {
-	// 	!(*this).pause.is_empty()
-	// }
-// }
+#[no_mangle]
+pub static mut g_cx: *mut CGlobal = std::ptr::null_mut();
 
 bitflags::bitflags! {
 	#[repr(transparent)]
-	pub struct PauseMode: u8 {
+	#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+	pub struct Pause: i32 {
 		const COMMAND = 1 << 0;
 		const PLAYBACK = 1 << 1;
 		const BUILDMODE = 1 << 2;
@@ -72,11 +67,12 @@ pub extern "C" fn rs_main() -> i32 {
 	let mut core = Core {
 		world: World::default(),
 		g_cx: CGlobal {
-			// no_sfx: false,
-			pause: PauseMode::empty(),
+			no_sfx: false,
+			pause: Pause::empty(),
 		},
 	};
 
+	// SAFETY: `core` never leaves this stack frame.
 	unsafe {
 		g_cx = std::ptr::addr_of_mut!(core.g_cx);
 	}
