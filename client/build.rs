@@ -31,6 +31,7 @@ fn generate_c_bindings() {
 		config.include_version = true;
 		config.pragma_once = true;
 		config.macro_expansion.bitflags = true;
+		config.cpp_compat = true;
 
 		gen_header(&mut config, "", "viletech.rs.h", &["CGlobal"]);
 	}
