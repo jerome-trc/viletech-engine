@@ -3,6 +3,8 @@
 use bevy_ecs::{component::Component, entity::Entity};
 use fixed::types::I16F16;
 
+use crate::Angle;
+
 #[derive(Debug)]
 pub struct Blueprint {
 	/// Editor number.
@@ -60,7 +62,8 @@ pub struct FxSpace {
 	pub vel_y: I16F16,
 	pub vel_z: I16F16,
 
-	pub pitch: u32,
+	pub angle: Angle,
+	pub pitch: Angle,
 
 	pub radius: I16F16,
 	pub height: I16F16,

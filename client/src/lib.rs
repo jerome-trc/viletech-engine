@@ -8,7 +8,10 @@ pub mod icon;
 use std::path::PathBuf;
 
 use bevy_ecs::world::World;
+use bitflags::Flags;
 use clap::Parser;
+
+pub type Angle = u32;
 
 #[no_mangle]
 pub static mut g_cx: *mut CGlobal = std::ptr::null_mut();
@@ -21,7 +24,25 @@ pub struct Core {
 /// Parts of [`Core`] that are FFI-safe.
 #[repr(C)]
 pub struct CGlobal {
-	pub no_sfx: bool,
+	// pub no_sfx: bool,
+	pub pause: PauseMode,
+}
+
+// impl CGlobal {
+	// #[no_mangle]
+	// #[must_use]
+	// pub unsafe extern "C" fn paused(this: *const Self) -> bool {
+	// 	!(*this).pause.is_empty()
+	// }
+// }
+
+bitflags::bitflags! {
+	#[repr(transparent)]
+	pub struct PauseMode: u8 {
+		const COMMAND = 1 << 0;
+		const PLAYBACK = 1 << 1;
+		const BUILDMODE = 1 << 2;
+	}
 }
 
 #[derive(clap::Parser, Debug)]
@@ -50,7 +71,10 @@ pub extern "C" fn rs_main() -> i32 {
 
 	let mut core = Core {
 		world: World::default(),
-		g_cx: CGlobal { no_sfx: false },
+		g_cx: CGlobal {
+			// no_sfx: false,
+			pause: PauseMode::empty(),
+		},
 	};
 
 	unsafe {
