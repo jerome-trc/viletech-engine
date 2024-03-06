@@ -56,6 +56,7 @@ include(CheckBigEndian)
 check_big_endian(WORDS_BIGENDIAN)
 
 include(GNUInstallDirs)
+include(CPM)
 
 if(POLICY CMP0099)
   cmake_policy(SET CMP0099 NEW)
