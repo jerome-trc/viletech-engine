@@ -335,10 +335,10 @@ int main(int argc, char **argv)
 
 	for (int32_t i = 0; i < argc; i += 1) {
 		if (streq(argv[i], "--legacy") || streq(argv[i], "-l")) {
-			return rs_main();
+			D_DoomMain();
+			return EXIT_SUCCESS;
 		}
 	}
 
-	D_DoomMain ();
-	return EXIT_SUCCESS;
+	return rs_main();
 }
