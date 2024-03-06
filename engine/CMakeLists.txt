@@ -67,6 +67,7 @@ include(CheckBigEndian)
 check_big_endian(WORDS_BIGENDIAN)
 
 include(GNUInstallDirs)
+include(CPM)
 
 if(POLICY CMP0099)
     cmake_policy(SET CMP0099 NEW)
@@ -147,11 +148,10 @@ list(APPEND VCPKG_MANIFEST_FEATURES "sdl2-image")
 find_package(SDL2_image)
 
 if(SDL2_image_FOUND)
-	set(HAVE_LIBSDL2_IMAGE TRUE)
-	if(NOT TARGET SDL2_image::SDL2_image)
-		add_library(SDL2_image::SDL2_image ALIAS
-					SDL2_image::SDL2_image-static)
-	endif()
+    set(HAVE_LIBSDL2_IMAGE TRUE)
+    if(NOT TARGET SDL2_image::SDL2_image)
+        add_library(SDL2_image::SDL2_image ALIAS SDL2_image::SDL2_image-static)
+    endif()
 endif()
 
 if(WITH_MAD)
