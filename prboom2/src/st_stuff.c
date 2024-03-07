@@ -749,6 +749,10 @@ static void ST_doPaletteStuff(void)
   int         palette;
   int cnt = dsda_PainPalette() ? plyr->damagecount / 3 : 0;
 
+  if (plyr->damagecount > 0 && cnt == 0) {
+    cnt = 1;
+  }
+
   if (dsda_PowerPalette() && plyr->powers[pw_strength])
     {
       // slowly fade the berzerk out
