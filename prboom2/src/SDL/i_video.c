@@ -1172,7 +1172,7 @@ void I_SetWindowIcon(void)
 
   if (surface)
   {
-    SDL_SetWindowIcon(NULL, surface);
+    SDL_SetWindowIcon(sdl_window, surface);
   }
 }
 
