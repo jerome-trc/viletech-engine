@@ -101,6 +101,10 @@ cmake_dependent_option(
     "HAVE_LTO"
     OFF)
 
+if(DEFINED MOLD_PATH)
+    set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} -fuse-ld=${MOLD_PATH}")
+endif()
+
 set(PACKAGE_NAME "${PROJECT_NAME}")
 set(PACKAGE_TARNAME "viletech")
 set(WAD_DATA "viletech.wad")
