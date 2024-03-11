@@ -95,6 +95,8 @@
 #include "dsda/time.h"
 #include "dsda/gl/render_scale.h"
 
+#include "viletech.nim.h"
+
 //e6y: new mouse code
 static SDL_Cursor* cursors[2] = {NULL, NULL};
 
@@ -103,8 +105,6 @@ dboolean window_focused;
 // Window resize state.
 static void ApplyWindowResize(SDL_Event *resize_event);
 
-static void ActivateMouse(void);
-static void DeactivateMouse(void);
 //static int AccelerateMouse(int val);
 static void I_ReadMouse(void);
 static dboolean MouseShouldBeGrabbed();
@@ -535,7 +535,7 @@ static void I_UploadNewPalette(int pal, int force)
 void I_ShutdownGraphics(void)
 {
   SDL_FreeCursor(cursors[1]);
-  DeactivateMouse();
+  n_deactivateMouse();
 }
 
 static dboolean queue_frame_capture;
@@ -1157,14 +1157,14 @@ void I_SetWindowCaption(void)
 
 /// @fn I_SetWindowIcon
 void I_SetWindowIcon(void) {
-  const uint8_t* window_icon_bytes(int32_t* size);
+  const uint8_t* n_windowIcon(int32_t* size);
 
   static SDL_Surface* surface = NULL;
 
   // do it only once, because of crash in SDL_InitVideoMode in SDL 1.3
   if (!surface) {
 	int32_t size = -1;
-	const uint8_t* bytes = window_icon_bytes(&size);
+	const uint8_t* bytes = n_windowIcon(&size);
 	assert(bytes != NULL);
 	SDL_RWops* rwop = SDL_RWFromConstMem((void*)bytes, size);
 	assert(rwop != NULL);
@@ -1466,17 +1466,6 @@ void I_UpdateVideoMode(void)
   src_rect.h = SCREENHEIGHT;
 }
 
-static void ActivateMouse(void)
-{
-  SDL_SetRelativeMouseMode(SDL_TRUE);
-  SDL_GetRelativeMouseState(NULL, NULL);
-}
-
-static void DeactivateMouse(void)
-{
-  SDL_SetRelativeMouseMode(SDL_FALSE);
-}
-
 // Interpolates mouse input to mitigate stuttering
 static void CorrectMouseStutter(int *x, int *y)
 {
@@ -1605,14 +1594,12 @@ void UpdateGrab(void)
 
   grab = MouseShouldBeGrabbed();
 
-  if (grab && !currently_grabbed)
-  {
-    ActivateMouse();
+  if (grab && !currently_grabbed) {
+    n_activateMouse();
   }
 
-  if (!grab && currently_grabbed)
-  {
-    DeactivateMouse();
+  if (!grab && currently_grabbed) {
+    n_deactivateMouse();
   }
 
   currently_grabbed = grab;

@@ -503,7 +503,7 @@ function(AddGameExecutable TARGET SOURCES)
         endif()
     endif()
 
-    add_executable(${TARGET} WIN32 ${SOURCES})
+    add_library(${TARGET} STATIC ${SOURCES})
 
     target_compile_options(${TARGET} PRIVATE ${SUPPORTED_WARNINGS}
                                              ${FAST_MATH_FLAG})
@@ -610,47 +610,6 @@ function(AddGameExecutable TARGET SOURCES)
 
     target_link_libraries(${TARGET} PRIVATE ${OPENGL_gl_LIBRARY}
                                             ${OPENGL_glu_LIBRARY})
-
-    # Rust
-    include(ExternalProject)
-    set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_SOURCE_DIR}/../target)
-
-    ExternalProject_Add(
-        client_rs
-        DOWNLOAD_COMMAND ""
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND cargo build
-        COMMAND cargo build --release
-        BUILD_BYPRODUCTS
-            "${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
-            "${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
-            BYPRODUCTS
-            "${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
-            "${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a"
-        BINARY_DIR "${CMAKE_SOURCE_DIR}/../target"
-        INSTALL_COMMAND ""
-        LOG_BUILD ON)
-
-    add_dependencies(${TARGET} client_rs)
-
-    if(WIN32)
-        target_link_libraries(
-            ${TARGET}
-            PRIVATE debug
-                    "${CMAKE_SOURCE_DIR}/../target/debug/vtclient.lib"
-                    optimized
-                    "${CMAKE_SOURCE_DIR}/../target/release/vtclient.lib"
-                    ws2_32
-                    userenv
-                    advapi32)
-    else()
-        target_link_libraries(
-            ${TARGET}
-            PRIVATE debug
-                    "${CMAKE_SOURCE_DIR}/../target/debug/libvtclient.a"
-                    optimized
-                    "${CMAKE_SOURCE_DIR}/../target/release/libvtclient.a")
-    endif()
 endfunction()
 
 addgameexecutable(viletech "${VTEC_SOURCES}")

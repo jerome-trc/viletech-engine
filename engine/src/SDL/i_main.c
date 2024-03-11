@@ -34,6 +34,7 @@
  *-----------------------------------------------------------------------------
  */
 
+#include <assert.h>
 #ifdef HAVE_CONFIG_H
 #include "config.h"
 #endif
@@ -77,8 +78,6 @@
 #include "dsda/time.h"
 #include "dsda/wad_stats.h"
 #include "dsda/zipfile.h"
-
-#include "viletech.rs.h"
 
 /* Most of the following has been rewritten by Lee Killough
  *
@@ -130,12 +129,6 @@ static void I_IntHandler(int s)
 {
   (void)s;
   interrupted = 1;
-}
-
-static void PrintVer(void)
-{
-  char vbuf[200];
-  lprintf(LO_INFO,"%s\n",I_GetVersionString(vbuf,200));
 }
 
 // Schedule a function to be called when the program exits.
@@ -263,7 +256,7 @@ dboolean streq(const char* a, const char* b) {
 	return strcmp(a, b) == 0;
 }
 
-int main(int argc, char **argv)
+int _main(int argc, char **argv)
 {
   dsda_ParseCommandLineArgs(argc, argv);
 
@@ -276,7 +269,7 @@ int main(int argc, char **argv)
   // Print the version and exit
   if (dsda_Flag(dsda_arg_v))
   {
-    PrintVer();
+    // n_printVer();
     return 0;
   }
 
@@ -294,7 +287,7 @@ int main(int argc, char **argv)
   lprintf(LO_DEBUG, "\n");
 
   /* Version info */
-  PrintVer();
+//   n_printVer();
 
   /*
      killough 1/98:
@@ -333,12 +326,6 @@ int main(int argc, char **argv)
   /* cphipps - call to video specific startup code */
   I_PreInitGraphics();
 
-	for (int32_t i = 0; i < argc; i += 1) {
-		if (streq(argv[i], "--legacy") || streq(argv[i], "-l")) {
-			D_DoomMain();
-			return EXIT_SUCCESS;
-		}
-	}
-
-	return rs_main();
+    D_DoomMain();
+    return EXIT_SUCCESS;
 }

@@ -1,7 +1,7 @@
 [workspace]
 resolver = "2"
-members = ["client"]
-default-members = ["client"]
+members = []
+default-members = []
 
 [workspace.package]
 edition = "2021"
@@ -22,16 +22,3 @@ lto = "thin"
 strip = false
 
 [workspace.dependencies]
-bevy_ecs = "0.13.0"
-bitflags = "2.4.2"
-clap = { version = "4.4.7", features = ["derive"] }
-egui = "0.26.2"
-egui_glow = "0.26.2"
-fixed = "1.25.1"
-glow = "0.13.1"
-nanorand = "0.7.0"
-rayon = "1.9.0"
-
-# Build only
-bindgen = "0.69.4"
-cbindgen = "0.26.0"

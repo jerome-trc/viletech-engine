@@ -22,12 +22,15 @@ CMakeSettings.json
 CMakeUserPresets.json
 
 # Build artifacts ##############################################################
+/doxy
+/build*
 /engine/ICONS/icons.aps
 /engine/release
-/build*
+/nimcache
+/nimdoc
 /release*
 /target
-/doxy
+/testresults
 
 # vcpkg
 vcpkg_installed
