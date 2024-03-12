@@ -24,12 +24,14 @@
 
 - Always dereference `this` explicitly.
 - Any structure and class which does not explicitly require copy constructors/operators shall have them deleted by default.
+- Avoid inheritance wherever possible. Prefer composition, static polymorphism, unions, or `std::variant`.
 - Constexpr value names are in `UPPER_SNAKE_CASE`.
 - Constructors must be qualified as `explicit`.
 - Do not overload functions.
 - Do not overload operators, except to provide arithmetic operators for numeric types (e.g. vectors).
 - Do not use default arguments.
 - Do not use the `class` keyword.
+- Do not use the `friend` keyword.
 - Do not use the `mutable` keyword.
 - Do not use variable-size integer types (e.g. `int` or `char`).
 - Mark any types to which the `final` keyword applies as such if it is meant to be a parent type.
