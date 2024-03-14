@@ -263,7 +263,7 @@ dboolean streq(const char* a, const char* b) {
 	return strcmp(a, b) == 0;
 }
 
-int main(int argc, char **argv)
+int c_main(int argc, char **argv)
 {
   dsda_ParseCommandLineArgs(argc, argv);
 
@@ -333,12 +333,6 @@ int main(int argc, char **argv)
   /* cphipps - call to video specific startup code */
   I_PreInitGraphics();
 
-	for (int32_t i = 0; i < argc; i += 1) {
-		if (streq(argv[i], "--legacy") || streq(argv[i], "-l")) {
-			D_DoomMain();
-			return EXIT_SUCCESS;
-		}
-	}
-
-	return rs_main();
+	D_DoomMain();
+	return EXIT_SUCCESS;
 }

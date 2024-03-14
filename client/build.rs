@@ -2,6 +2,45 @@ use std::path::{Path, PathBuf};
 
 fn main() {
 	println!("cargo:rerun-if-changed=src");
+
+	if cfg!(target_os = "linux") {
+		println!("cargo:rustc-link-search=/usr/local/lib");
+		println!("cargo:rustc-link-search=/usr/lib/x86_64-linux-gnu");
+	}
+
+	if cfg!(any(target_os = "macos", target_os = "freebsd")) {
+		println!("cargo:rustc-link-lib=static=c++");
+	} else {
+		println!("cargo:rustc-link-lib=static=stdc++");
+	}
+
+	println!("cargo:rustc-link-lib=dl");
+	println!("cargo:rustc-link-lib=dumb");
+	println!("cargo:rustc-link-lib=fluidsynth");
+	println!("cargo:rustc-link-lib=GL");
+	println!("cargo:rustc-link-lib=GLU");
+	println!("cargo:rustc-link-lib=m");
+	println!("cargo:rustc-link-lib=mad");
+	println!("cargo:rustc-link-lib=ogg");
+	println!("cargo:rustc-link-lib=pthread");
+	println!("cargo:rustc-link-lib=portmidi");
+	println!("cargo:rustc-link-lib=SDL2-2.0");
+	println!("cargo:rustc-link-lib=SDL2_image");
+	println!("cargo:rustc-link-lib=SDL2_mixer");
+	println!("cargo:rustc-link-lib=vorbis");
+	println!("cargo:rustc-link-lib=vorbisfile");
+	println!("cargo:rustc-link-lib=z");
+	println!("cargo:rustc-link-lib=zip");
+
+	let libdir = if std::env::var("PROFILE").unwrap() == "release" {
+		Path::new(env!("CARGO_WORKSPACE_DIR")).join("build/src/Release")
+	} else {
+		Path::new(env!("CARGO_WORKSPACE_DIR")).join("build/src/Debug")
+	};
+
+	println!("cargo:rustc-link-search={}", libdir.display());
+	println!("cargo:rustc-link-lib=static=viletech");
+
 	generate_c_bindings();
 	generate_rust_bindings();
 }

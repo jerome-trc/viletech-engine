@@ -2,42 +2,26 @@
 //!
 //! The interface via which an end user plays games on the VileTech Engine.
 
-pub mod actor;
-pub mod c;
-pub mod icon;
+use std::{ffi::{c_char, c_int, CString}, path::PathBuf, process::ExitCode};
 
-use std::path::PathBuf;
+mod actor;
+mod icon;
 
-use bevy_ecs::world::World;
-use clap::Parser;
-
-pub type Angle = u32;
-
-pub struct Core {
-	pub world: World,
-	pub g_cx: CGlobal,
-}
-
-/// Parts of [`Core`] that are FFI-safe.
-///
-/// See the [`c`] module for many associated functions.
-#[repr(C)]
-pub struct CGlobal {
-	pub no_sfx: bool,
-	pub pause: Pause,
-}
-
-#[no_mangle]
-pub static mut g_cx: *mut CGlobal = std::ptr::null_mut();
+pub(crate) type Angle = u32;
 
 bitflags::bitflags! {
 	#[repr(transparent)]
 	#[derive(Debug, Clone, Copy, PartialEq, Eq)]
-	pub struct Pause: i32 {
+	pub(crate) struct Pause: i32 {
 		const COMMAND = 1 << 0;
 		const PLAYBACK = 1 << 1;
 		const BUILDMODE = 1 << 2;
 	}
+}
+
+extern "C" {
+	#[must_use]
+	fn c_main(argc: c_int, argv: *mut *mut c_char) -> c_int;
 }
 
 #[derive(clap::Parser, Debug)]
@@ -51,7 +35,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 
 This is free software, and you are welcome to redistribute it under certain
 conditions. See the license document that comes with your installation.")]
-struct LaunchArgs {
+pub(crate) struct LaunchArgs {
 	/// Use original dsda-doom code for demo compatibility.
 	#[arg(short, long)]
 	legacy: bool,
@@ -60,22 +44,20 @@ struct LaunchArgs {
 	iwad: PathBuf,
 }
 
-#[no_mangle]
-pub extern "C" fn rs_main() -> i32 {
-	let _args = LaunchArgs::parse();
+fn main() -> ExitCode {
+	let args = std::env::args();
+	let mut argv = vec![];
 
-	let mut core = Core {
-		world: World::default(),
-		g_cx: CGlobal {
-			no_sfx: false,
-			pause: Pause::empty(),
-		},
-	};
-
-	// SAFETY: `core` never leaves this stack frame.
-	unsafe {
-		g_cx = std::ptr::addr_of_mut!(core.g_cx);
+	for arg in args {
+		argv.push(CString::new(arg).unwrap().into_raw())
 	}
 
-	0
+	assert!(!argv.is_empty());
+
+	unsafe {
+		match c_main(argv.len() as c_int, argv.as_mut_ptr()) {
+			0 => ExitCode::SUCCESS,
+			_ => ExitCode::FAILURE,
+		}
+	}
 }

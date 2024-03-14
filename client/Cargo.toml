@@ -12,9 +12,9 @@ license = "MIT OR Apache-2.0"
 publish = false
 repository.workspace = true
 
-[lib]
-name = "vtclient"
-crate-type = ["staticlib"]
+[[bin]]
+name = "viletech"
+path = "src/main.rs"
 
 [dependencies]
 bevy_ecs.workspace = true
