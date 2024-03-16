@@ -138,7 +138,7 @@ static void I_IntHandler(int s)
 static void PrintVer(void)
 {
   char vbuf[200];
-  lprintf(LO_INFO,"%s ()\n",I_GetVersionString(vbuf,200));
+  lprintf(LO_INFO,"%s\n",I_GetVersionString(vbuf,200));
   lprintf(LO_INFO, "Compiled on %s, %s\n", __DATE__, __TIME__);
 }
 
@@ -266,6 +266,8 @@ void I_SetProcessPriority(void)
 //int main(int argc, const char * const * argv)
 int main(int argc, char **argv)
 {
+  void enableGamemode(void);
+
   dsda_ParseCommandLineArgs(argc, argv);
 
   if (dsda_Flag(dsda_arg_verbose))
@@ -330,6 +332,8 @@ int main(int argc, char **argv)
 
   // Priority class for the prboom-plus process
   I_SetProcessPriority();
+
+  enableGamemode();
 
   /* cphipps - call to video specific startup code */
   I_PreInitGraphics();

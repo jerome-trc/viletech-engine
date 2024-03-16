@@ -626,6 +626,47 @@ function(AddGameExecutable TARGET SOURCES)
         ${OPENGL_gl_LIBRARY}
         ${OPENGL_glu_LIBRARY}
     )
+
+    # Zig
+    include(ExternalProject)
+    set_directory_properties(PROPERTIES EP_PREFIX ${CMAKE_SOURCE_DIR}/../zig-out)
+
+    ExternalProject_Add(
+        engine_z
+        DOWNLOAD_COMMAND ""
+        CONFIGURE_COMMAND ""
+        BUILD_COMMAND zig build install
+        COMMAND zig build -Doptimize=ReleaseSafe install
+        BUILD_BYPRODUCTS
+            "${CMAKE_SOURCE_DIR}/../zig-out/lib/ratdoom.lib"
+            "${CMAKE_SOURCE_DIR}/../zig-out/lib/libratdoom.a"
+            # BYPRODUCTS
+            # "${CMAKE_SOURCE_DIR}/../zig-out/lib/ratdoom.lib"
+            # "${CMAKE_SOURCE_DIR}/../zig-out/lib/libratdoom.a"
+        BINARY_DIR "${CMAKE_SOURCE_DIR}/../zig-out"
+        INSTALL_COMMAND ""
+        LOG_BUILD ON)
+
+    add_dependencies(${TARGET} engine_z)
+
+    if(WIN32)
+        target_link_libraries(
+            ${TARGET}
+            PRIVATE debug
+                    "${CMAKE_SOURCE_DIR}/../zig-out/lib/ratdoom.lib"
+                    optimized
+                    "${CMAKE_SOURCE_DIR}/../zig-out/lib/ratdoom.lib"
+                    ws2_32
+                    userenv
+                    advapi32)
+    else()
+        target_link_libraries(
+            ${TARGET}
+            PRIVATE debug
+                    "${CMAKE_SOURCE_DIR}/../zig-out/lib/libratdoom.a"
+                    optimized
+                    "${CMAKE_SOURCE_DIR}/../zig-out/lib/libratdoom.a")
+    endif()
 endfunction()
 
 AddGameExecutable(rat-doom "${DSDA_SOURCES}")
