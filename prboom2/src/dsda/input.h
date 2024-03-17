@@ -150,6 +150,7 @@ typedef enum {
   dsda_input_shazam,
   dsda_input_chicken,
   dsda_input_console,
+  dsda_input_musplayer,
   dsda_input_coordinate_display,
   dsda_input_jump,
   dsda_input_hexen_arti_incant,

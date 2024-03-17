@@ -16,7 +16,9 @@
 //
 
 #include "d_deh.h"
+#include "d_imgui.h"
 #include "doomstat.h"
+#include "doomtype.h"
 #include "g_game.h"
 #include "hu_lib.h"
 #include "hu_stuff.h"
@@ -2230,6 +2232,13 @@ static dboolean console_MusicPlay(const char* command, const char* args) {
   return true;
 }
 
+static dboolean console_MusicPlayer(const char* command, const char* args) {
+	(void)command;
+	(void)args;
+	imguiToggleMusicPlayer();
+	return true;
+}
+
 static dboolean console_MusicRestart(const char* command, const char* args) {
   S_StopMusic();
   S_RestartMusic();
@@ -2279,6 +2288,7 @@ static console_command_entry_t console_commands[] = {
 
   { "music.play", console_MusicPlay, CF_ALWAYS },
   { "music.restart", console_MusicRestart, CF_ALWAYS },
+  { "music.player", console_MusicPlayer, CF_ALWAYS, },
 
   { "level.exit", console_LevelExit, CF_NEVER },
   { "level.secret_exit", console_LevelSecretExit, CF_NEVER },

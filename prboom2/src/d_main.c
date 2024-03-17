@@ -117,8 +117,8 @@
 
 // NSM
 #include "i_capture.h"
-
 #include "i_glob.h"
+#include "d_imgui.h"
 
 static void D_PageDrawer(void);
 
@@ -567,6 +567,10 @@ static void D_DoomLoop(void)
     // killough 3/16/98: change consoleplayer to displayplayer
     if (players[displayplayer].mo) // cph 2002/08/10
       S_UpdateSounds();// move positional sounds
+
+	imguiFrameStart();
+	imguiDrawMusicPlayer();
+	imguiFrameFinish();
 
     // Update display, next frame, with current state.
     if (!movement_smooth || !WasRenderedInTryRunTics || gamestate != wipegamestate)

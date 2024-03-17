@@ -490,6 +490,19 @@ set(DSDA_SOURCES
 function(AddGameExecutable TARGET SOURCES)
     set(SOURCES
         ${SOURCES}
+
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/imgui.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/imgui_demo.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/imgui_draw.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/imgui_tables.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/imgui_widgets.cpp
+
+		$ENV{RATDOOM_CIMGUI_DIR}/cimgui.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/backends/imgui_impl_opengl3.cpp
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui/backends/imgui_impl_sdl2.cpp
+		d_imgui.h
+		d_imgui.c
+
         gl_clipper.c
         gl_drawinfo.c
         gl_fbo.c
@@ -531,15 +544,37 @@ function(AddGameExecutable TARGET SOURCES)
         ${FAST_MATH_FLAG}
     )
 
+	set(RATDOOM_IMGUI_DEFINITIONS
+		CIMGUI_USE_OPENGL3
+		CIMGUI_USE_SDL2
+		IMGUI_IMPL_OPENGL_LOADER_GL3W)
+
+	if (WIN32)
+		set(
+			RATDOOM_IMGUI_DEFINITIONS
+			${RATDOOM_IMGUI_DEFINITIONS}
+			"IMGUI_IMPL_API=extern \"C\" __declspec\(dllexport\)"
+		)
+	else(WIN32)
+		set(
+			RATDOOM_IMGUI_DEFINITIONS
+			${RATDOOM_IMGUI_DEFINITIONS}
+			"IMGUI_IMPL_API=extern \"C\""
+		)
+	endif(WIN32)
+
     target_compile_definitions(${TARGET} PRIVATE
         ${DEPRECATION_SILENCING_DEFINITIONS}
         ${DSDA_COMPILE_DEFINITIONS}
+		${RATDOOM_IMGUI_DEFINITIONS}
     )
 
     target_include_directories(${TARGET} PRIVATE
         ${SDL2_INCLUDE_DIRS}
         ${CMAKE_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
+		$ENV{RATDOOM_CIMGUI_DIR}
+		$ENV{RATDOOM_CIMGUI_DIR}/imgui
     )
 
     target_link_libraries(${TARGET} PRIVATE

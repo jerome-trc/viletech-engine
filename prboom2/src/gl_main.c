@@ -70,6 +70,7 @@
 #include "st_stuff.h"
 #include "hu_stuff.h"
 #include "e6y.h"//e6y
+#include "d_imgui.h"
 
 #include "dsda/configuration.h"
 #include "dsda/map_format.h"
@@ -2756,4 +2757,6 @@ void gld_DrawScene(player_t *player)
   glDisableClientState(GL_COLOR_ARRAY);
 
   glsl_PopMainShader();
+
+  ImGui_ImplOpenGL3_RenderDrawData(igGetDrawData());
 }

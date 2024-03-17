@@ -92,6 +92,10 @@
 #include "dsda/time.h"
 #include "dsda/gl/render_scale.h"
 
+#include "d_imgui.h"
+
+void I_SafeExit(int rc);
+
 //e6y: new mouse code
 static SDL_Cursor* cursors[2] = {NULL, NULL};
 
@@ -296,6 +300,8 @@ static void I_GetEvent(void)
 
 while (SDL_PollEvent(Event))
 {
+	ImGui_ImplSDL2_ProcessEvent(&SDLEvent);
+
   switch (Event->type) {
   case SDL_KEYDOWN:
 #ifdef __APPLE__
@@ -1190,6 +1196,17 @@ void I_InitGraphics(void)
     /* Set the video mode */
     I_UpdateVideoMode();
 
+	igCreateContext(NULL);
+
+	//set docking
+	ImGuiIO* ioptr = igGetIO();
+	ioptr->ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;       // Enable Keyboard Controls
+
+	ImGui_ImplSDL2_InitForOpenGL(sdl_window, sdl_glcontext);
+	ImGui_ImplOpenGL3_Init(NULL);
+
+	igStyleColorsDark(NULL);
+
     //e6y: setup the window title
     I_SetWindowCaption();
 
@@ -1534,8 +1551,16 @@ static void I_ReadMouse(void)
   }
 }
 
-static dboolean MouseShouldBeGrabbed()
+static dboolean MouseShouldBeGrabbed(void)
 {
+#ifndef NDEBUG
+	return false;
+#endif
+
+	if (imguiNeedsMouse()) {
+		return false;
+	}
+
   // never grab the mouse when in screensaver mode
 
   //if (screensaver_mode)
