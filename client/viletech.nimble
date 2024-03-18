@@ -14,6 +14,7 @@ else:
 
 proc cFlags(): string =
     return getEnv("VTEC_LIB_DIRS") & " " &
+        "--cincludes:../engine/src " &
         "--clib:dumb " &
         "--clib:fluidsynth " &
         "--clib:GL --clib:GLU " &
