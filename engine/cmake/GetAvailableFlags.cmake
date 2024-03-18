@@ -49,7 +49,6 @@ function(get_supported_warnings outvar)
     set(_c_only_warnings
         "-Wabsolute-value"
         "-Wno-pointer-sign"
-        "-Wdeclaration-after-statement"
         "-Wbad-function-cast")
     check_flags_list("${_c_only_warnings}" "_supported_c_warnings")
     foreach(_c_warning IN LISTS _supported_c_warnings)
