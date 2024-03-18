@@ -27,18 +27,20 @@ proc cFlags(): string =
         "--clib:zip "
 
 task build_d, "Debug Executable":
-    exec("nim " &
-        "--nimcache:../nimcache " &
+    exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Debug --target all --")
+
+    exec("nim --nimcache:../nimcache " &
         output &
         cFlags() &
         "cpp ./viletech.nim")
 
 task build_r, "Release Executable":
-    exec("nim " &
-        "--nimcache:../nimcache " &
+    exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Release --target all --")
+
+    exec("nim --nimcache:../nimcache " &
         output &
         cFlags() &
-        "cpp ./viletech.nim")
+        "-d:release cpp ./viletech.nim")
 
 task test, "Run Test Suite":
     exec("testament run ./tests/all/t.nim")
