@@ -13,11 +13,14 @@ from std/paths import Path
 from std/strformat import `&`
 from std/os import nil
 
+import src/actor
 from src/args import nil
 from src/core import nil
+import src/flecs
 from src/platform import nil
 
 var cx = core.Core()
+cx.world = initWorld()
 var clArgs = commandLineParams()
 
 var p = initOptParser(clArgs)
@@ -57,4 +60,13 @@ cParseCommandLineArgs(paramCount().cint + 1, argv)
 cLoadDefaults()
 cSetProcessPriority()
 cPreInitGraphics()
+
+block:
+    let world = cx.world
+    ecsComponent(world, FxSpace)
+    ecsComponent(world, Rendered)
+
 cDoomMain()
+
+if cx.world.reset() != 0:
+    echo("ECS de-init failed.")
