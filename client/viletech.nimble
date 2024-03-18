@@ -7,6 +7,11 @@ skipDirs = @["tests"]
 
 requires "nim == 2.0.2"
 
+when defined(windows):
+    const output = "-o:../build/Release/viletech.exe "
+else:
+    const output = "-o:../build/Release/viletech "
+
 proc cFlags(): string =
     return getEnv("VTEC_LIB_DIRS") & " " &
         "--clib:dumb " &
@@ -21,11 +26,6 @@ proc cFlags(): string =
         "--clib:zip "
 
 task build_d, "Debug Executable":
-    when defined(windows):
-        const output = "-o:../build/Debug/viletech.exe "
-    else:
-        const output = "-o:../build/Debug/viletech "
-
     exec("nim " &
         "--nimcache:../nimcache " &
         output &
@@ -33,24 +33,11 @@ task build_d, "Debug Executable":
         "cpp ./viletech.nim")
 
 task build_r, "Release Executable":
-    when defined(windows):
-        const output = "-o:../build/Release/viletech.exe "
-    else:
-        const output = "-o:../build/Release/viletech "
-
     exec("nim " &
         "--nimcache:../nimcache " &
         output &
         cFlags() &
         "cpp ./viletech.nim")
-
-task cmake, "CMake Debug Build":
-    when defined(windows):
-        discard
-    elif defined(macosx):
-        discard
-    else:
-        discard
 
 task test, "Run Test Suite":
     exec("testament run ./tests/all/t.nim")
