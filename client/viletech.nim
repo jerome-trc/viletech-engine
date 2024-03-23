@@ -13,10 +13,9 @@ from std/paths import Path
 from std/strformat import `&`
 from std/os import nil
 
-import src/actor
+import src/[actor, exports, flecs]
 from src/args import nil
 from src/core import nil
-import src/flecs
 from src/platform import nil
 
 var cx = core.Core()

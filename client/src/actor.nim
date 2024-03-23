@@ -12,12 +12,13 @@ proc `div` *(a, b: Angle): Angle {.borrow.}
 
 type
     SpaceFlag* {.size: sizeof(uint64).} = enum
-        DROPOFF
-        FLOAT
-        SOLID
-        SHOOTABLE
+        ecsfDropoff
+        ecsfFloat
+        ecsfSolid
+        ecsfShootable
     SpaceFlags* = set[SpaceFlag]
 
+proc toBits*(v: SpaceFlags): uint64 = cast[uint64](v)
 proc toSpaceFlags*(v: uint64): SpaceFlags = cast[SpaceFlags](v)
 
 type
