@@ -66,6 +66,3 @@ block:
     ecsComponent(world, Rendered)
 
 cDoomMain()
-
-if cx.world.reset() != 0:
-    echo("ECS de-init failed.")
