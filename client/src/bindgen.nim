@@ -134,8 +134,7 @@ proc exportTypeC(sym: NimNode): string =
             of "int8": "int8_t"
             of "int16": "int16_t"
             of "int32": "int32_t"
-            of "int64": "int64_t"
-            of "int": "int32_t" # TODO: platform dependent.
+            of "int64", "int": "int64_t" # TODO: platform-dependent.
             of "uint8": "uint8_t"
             of "uint16": "uint16_t"
             of "uint32": "uint32_t"
