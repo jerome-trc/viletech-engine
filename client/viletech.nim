@@ -9,14 +9,17 @@ proc cDoomMain() {.importc: "D_DoomMain".}
 
 from std/cmdline import commandLineParams, paramCount
 from std/parseopt import initOptParser, getopt
+from std/os import nil
 from std/paths import Path
 from std/strformat import `&`
-from std/os import nil
+import std/times
 
-import src/[actor, exports, flecs]
+import src/[actor, exports, flecs, stdx]
 from src/args import nil
 from src/core import nil
 from src/platform import nil
+
+let startTime = getTime()
 
 var cx = core.Core()
 cx.world = initWorld()
@@ -66,3 +69,6 @@ block:
     ecsComponent(world, Rendered)
 
 cDoomMain()
+
+let uptime = startTime.elapsed()
+echo(&"Engine uptime: {uptime.inHours()}:{uptime.inMinutes()}:{uptime.inSeconds()}")

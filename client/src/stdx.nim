@@ -1,5 +1,7 @@
 ## Helpers which could reasonably be a part of the standard library.
 
+import std/times
+
 proc isEmpty*[T](sequence: seq[T]): bool =
     sequence.len() == 0
 
@@ -14,3 +16,6 @@ type FileIo* {.borrow: `.`.} = distinct File
 
 proc `=destroy`*(fio: FileIo) =
     close(fio.File)
+
+proc elapsed*(time: Time): Duration =
+    getTime() - time
