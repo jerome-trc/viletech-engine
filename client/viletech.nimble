@@ -32,6 +32,7 @@ task build_d, "Debug Executable":
     exec("nim --nimcache:../nimcache " &
         output &
         cFlags() &
+        "--debuginfo --linedir:on " &
         "cpp ./viletech.nim")
 
 task build_r, "Release Executable":
