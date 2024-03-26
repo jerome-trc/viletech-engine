@@ -36,7 +36,7 @@
 #include "resourcefile.hpp"
 #include "swap.hpp"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 //==========================================================================

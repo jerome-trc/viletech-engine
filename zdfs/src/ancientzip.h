@@ -1,7 +1,7 @@
 #pragma once
 #include "fs_files.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 class FZipExploder
 {

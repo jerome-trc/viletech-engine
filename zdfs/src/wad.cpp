@@ -40,7 +40,7 @@
 #include "fs_stringpool.h"
 #include "resourcefile.hpp"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 struct wadinfo_t

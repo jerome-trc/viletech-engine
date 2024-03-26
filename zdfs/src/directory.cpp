@@ -40,7 +40,7 @@
 #include "findfile.hpp"
 #include "fs_stringpool.h"
 
-namespace FileSys {
+namespace zdfs {
 
 std::string FS_FullPath(const char* directory);
 

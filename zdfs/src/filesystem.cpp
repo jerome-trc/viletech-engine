@@ -47,7 +47,7 @@
 #include "md5.hpp"
 #include "fs_stringpool.h"
 
-namespace FileSys {
+namespace zdfs {
 
 // MACROS ------------------------------------------------------------------
 

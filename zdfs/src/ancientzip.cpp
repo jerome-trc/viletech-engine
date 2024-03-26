@@ -47,8 +47,8 @@
 #include <assert.h>
 #include "ancientzip.h"
 
-namespace FileSys {
-	
+namespace zdfs {
+
 /****************************************************************
     Bit-I/O variables and routines/macros
 

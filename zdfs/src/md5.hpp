@@ -69,7 +69,7 @@
 #include <stddef.h>
 #include <cstring>
 
-namespace FileSys {
+namespace zdfs {
     /// Provides MD5 hashing functionality
     namespace md5 {
 

@@ -42,7 +42,7 @@
 #include "swap.hpp"
 #include "fs_stringpool.h"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 #define BUFREADCOMMENT (0x400)

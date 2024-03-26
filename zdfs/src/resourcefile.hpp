@@ -9,7 +9,7 @@
 #include "fs_files.hpp"
 #include "decompress.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 class StringPool;
 std::string ExtractBaseName(const char* path, bool include_extension = false);

@@ -45,7 +45,7 @@
 #include <vector>
 #include "swap.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 class FileSystemException : public std::exception
 {

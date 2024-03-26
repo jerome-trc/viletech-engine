@@ -1,6 +1,6 @@
 #pragma once
 
-namespace FileSys {
+namespace zdfs {
 // System independent critical sections without polluting the namespace with the operating system headers.
 class FInternalCriticalSection;
 FInternalCriticalSection *CreateCriticalSection();
@@ -16,7 +16,7 @@ public:
 	{
 		c = CreateCriticalSection();
 	}
-	
+
 	~FCriticalSection()
 	{
 		DeleteCriticalSection(c);
@@ -26,7 +26,7 @@ public:
 	{
 		EnterCriticalSection(c);
 	}
-	
+
 	void unlock()
 	{
 		LeaveCriticalSection(c);

@@ -10,7 +10,7 @@
 #include "fs_files.hpp"
 #include "resourcefile.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 union LumpShortName
 {
