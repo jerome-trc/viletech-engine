@@ -2,10 +2,10 @@ module Utility
   extend self
 
   def play_demo(lmp:, iwad: "DOOM2.WAD", pwad: nil, extra: nil)
-    command = "./build/viletech.exe -iwad spec/support/wads/#{iwad}"
-    command << " -file spec/support/wads/#{pwad}" if pwad
-    command << " -fastdemo \"spec/support/lmps/#{lmp}\""
-    command << " -nosound -nomusic -nodraw -levelstat -analysis"
+    command = "./build/Release/viletech --iwad spec/support/wads/#{iwad}"
+    command << " --file spec/support/wads/#{pwad}" if pwad
+    command << " --fastdemo \"spec/support/lmps/#{lmp}\""
+    command << " --nosfx --nomusic --nodraw --levelstat --analysis"
     command << " #{extra}" if extra
 
     system(command)
