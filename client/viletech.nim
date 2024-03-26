@@ -1,11 +1,12 @@
-{.link: "../build/src/Debug/libviletech.a".}
+const libPath = when defined(release):
+    "../build/src/Release/libviletech.a"
+else:
+    "../build/src/Debug/libviletech.a"
+
+{.link: libPath.}
 {.passc: "-I./src".}
 
-proc cParseCommandLineArgs(argc: cint, argv: cstringArray) {.importc: "dsda_ParseCommandLineArgs".}
-proc cLoadDefaults() {.importc: "M_LoadDefaults".}
-proc cSetProcessPriority() {.importc: "I_SetProcessPriority".}
-proc cPreInitGraphics() {.importc: "I_PreInitGraphics".}
-proc cDoomMain() {.importc: "D_DoomMain".}
+proc cMain(argc: cint, argv: cstringArray): cint {.importc.}
 
 from std/cmdline import commandLineParams, paramCount
 from std/parseopt import initOptParser, getopt
@@ -57,18 +58,31 @@ for kind, key, val in p.getopt():
 
 clArgs.insert(os.getAppFileName(), 0)
 
-var argv = clArgs.toOpenArray(0, paramCount()).allocCStringArray()
-cParseCommandLineArgs(paramCount().cint + 1, argv)
-cLoadDefaults()
-cSetProcessPriority()
-cPreInitGraphics()
-
 block:
     let world = cx.world
     ecsComponent(world, FxSpace)
     ecsComponent(world, Rendered)
 
+let argv = clArgs.toOpenArray(0, paramCount()).allocCStringArray()
+let ret = cMain(paramCount().cint + 1, argv)
+
+#[
+
+proc cParseCommandLineArgs(argc: cint, argv: cstringArray) {.importc: "dsda_ParseCommandLineArgs".}
+proc cLoadDefaults() {.importc: "M_LoadDefaults".}
+proc cSetProcessPriority() {.importc: "I_SetProcessPriority".}
+proc cPreInitGraphics() {.importc: "I_PreInitGraphics".}
+proc cDoomMain() {.importc: "D_DoomMain", noreturn.}
+
+cParseCommandLineArgs(paramCount().cint + 1, argv)
+cLoadDefaults()
+cSetProcessPriority()
+cPreInitGraphics()
+
 cDoomMain()
+]#
 
 let uptime = startTime.elapsed()
 echo(&"Engine uptime: {uptime.inHours()}:{uptime.inMinutes()}:{uptime.inSeconds()}")
+
+quit(ret)

@@ -256,7 +256,7 @@ dboolean streq(const char* a, const char* b) {
 	return strcmp(a, b) == 0;
 }
 
-int _main(int argc, char **argv)
+int cMain(int argc, char **argv)
 {
   dsda_ParseCommandLineArgs(argc, argv);
 
