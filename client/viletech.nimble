@@ -29,7 +29,7 @@ task build_d, "Debug Executable":
 
     exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Debug --target all --")
 
-    exec("nim --nimcache:../nimcache " &
+    exec("nim --nimcache:../nimcache/debug " &
         output &
         cFlags() &
         "--debuginfo --linedir:on " &
@@ -43,7 +43,7 @@ task build_r, "Release Executable":
 
     exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Release --target all --")
 
-    exec("nim --nimcache:../nimcache " &
+    exec("nim --nimcache:../nimcache/release " &
         output &
         cFlags() &
         "-d:release cpp ./viletech.nim")
