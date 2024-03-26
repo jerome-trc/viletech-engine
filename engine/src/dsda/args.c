@@ -460,7 +460,7 @@ static arg_config_t arg_config[dsda_arg_count] = {
     arg_int, 1, INT_MAX, 0, 0
   },
   [dsda_arg_nosound] = {
-    "-nosound", NULL, NULL,
+    "--nosound", NULL, NULL,
     "turn off sound",
     arg_null, NO_LIMITS_OR_COUNTS
   },
