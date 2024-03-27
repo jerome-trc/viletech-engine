@@ -36,7 +36,7 @@
 #include <string.h>
 #include <vector>
 
-namespace FileSys {
+namespace zdfs {
 
 enum
 {

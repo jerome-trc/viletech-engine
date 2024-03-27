@@ -1,7 +1,7 @@
 #pragma once
 #include "fs_files.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 // Zip compression methods, extended by some internal types to be passed to OpenDecompressor
 enum ECompressionMethod

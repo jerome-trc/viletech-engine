@@ -1,16 +1,13 @@
-#pragma once
+/// @file
+/// @brief File system I/O functions.
 
-//-----------------------------------------------------------------------------
-//
-// DESCRIPTION:
-//	File system  I/O functions.
-//
-//-----------------------------------------------------------------------------
+#pragma once
 
 #include "fs_files.hpp"
 #include "resourcefile.hpp"
+#include "zdfs.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 union LumpShortName
 {
@@ -19,7 +16,6 @@ union LumpShortName
 	uint32_t		dword;			// These are for accessing the first 4 or 8 chars of
 	uint64_t		qword;			// Name as a unit without breaking strict aliasing rules
 };
-
 
 struct FolderEntry
 {

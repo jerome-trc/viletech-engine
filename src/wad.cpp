@@ -34,13 +34,14 @@
 */
 
 #include <ctype.h>
+
 #include "resourcefile.hpp"
-#include "filesystem.hpp"
+#include "zdfs/filesystem.hpp"
 #include "swap.hpp"
 #include "fs_stringpool.h"
 #include "resourcefile.hpp"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 struct wadinfo_t

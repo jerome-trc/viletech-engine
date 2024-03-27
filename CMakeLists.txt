@@ -18,6 +18,15 @@ macro(make_release_only)
                  ${CMAKE_CXX_FLAGS_RELEASE})
 endmacro()
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD_REQUIRED YES)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC")
+
 include(CheckFunctionExists)
 
 check_function_exists(stricmp STRICMP_EXISTS)
@@ -86,7 +95,7 @@ set(ZDFS_SOURCES
 
 add_library(zdfs ${ZDFS_SOURCES})
 
-target_include_directories(zdfs PUBLIC include bzip2 lzma/C)
+target_include_directories(zdfs PUBLIC src include bzip2 lzma/C)
 target_include_directories(zdfs SYSTEM PRIVATE miniz utf8proc)
 
 target_link_libraries(zdfs bz2 lzma miniz)

@@ -49,7 +49,7 @@
 #include "ancientzip.h"
 #include "decompress.hpp"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 

@@ -44,7 +44,7 @@
 #include "decompress.hpp"
 #include "wildcards.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 // this is for restricting shared file readers to the main thread.
 thread_local bool mainThread;
@@ -317,7 +317,7 @@ int entrycmp(const void* a, const void* b)
 void FResourceFile::GenerateHash()
 {
 	// hash the directory after sorting
-	using namespace FileSys::md5;
+	using namespace zdfs::md5;
 
 	auto n = snprintf(Hash, 48, "%08X-%04X-", (unsigned)Reader.GetLength(), NumLumps);
 

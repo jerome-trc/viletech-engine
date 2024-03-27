@@ -42,12 +42,12 @@
 #include <string.h>
 
 #include "resourcefile.hpp"
-#include "filesystem.hpp"
+#include "zdfs/filesystem.hpp"
 #include "findfile.hpp"
 #include "md5.hpp"
 #include "fs_stringpool.h"
 
-namespace FileSys {
+namespace zdfs {
 
 // MACROS ------------------------------------------------------------------
 

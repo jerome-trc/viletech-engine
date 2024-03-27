@@ -3,7 +3,7 @@
 #include <memory>
 #include "fs_files.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 class MemoryReader : public FileReaderInterface
 {

@@ -17,9 +17,9 @@
 #include <libkern/OSByteOrder.h>
 #endif
 
-namespace FileSys {
+namespace zdfs {
 namespace byteswap {
-	
+
 #ifdef __APPLE__
 
 inline unsigned short LittleShort(unsigned short x)
@@ -46,7 +46,7 @@ inline unsigned int BigLong(unsigned int x)
 #elif defined __BIG_ENDIAN__
 
 // Swap 16bit, that is, MSB and LSB byte.
-// No masking with 0xFF should be necessary. 
+// No masking with 0xFF should be necessary.
 inline unsigned short LittleShort (unsigned short x)
 {
 	return (unsigned short)((x>>8) | (x<<8));

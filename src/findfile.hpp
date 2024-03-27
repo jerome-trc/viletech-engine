@@ -5,8 +5,8 @@
 #include <vector>
 #include <string>
 
-namespace FileSys {
-	
+namespace zdfs {
+
 struct FileListEntry
 {
 	std::string FileName;		// file name only

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace FileSys {
+namespace zdfs {
 // Storage for all the static strings the file system must hold.
 class StringPool
 {

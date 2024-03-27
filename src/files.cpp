@@ -40,8 +40,8 @@
 #include <string.h>
 #include "files_internal.h"
 
-namespace FileSys {
-	
+namespace zdfs {
+
 #ifdef _WIN32
 std::wstring toWide(const char* str);
 #endif

@@ -35,7 +35,7 @@
 
 #include "resourcefile.hpp"
 
-namespace FileSys {
+namespace zdfs {
 
 //==========================================================================
 //

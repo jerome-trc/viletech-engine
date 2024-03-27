@@ -38,7 +38,7 @@
 #include "fs_stringpool.h"
 #include "swap.hpp"
 
-namespace FileSys {
+namespace zdfs {
 	using namespace byteswap;
 
 //==========================================================================
