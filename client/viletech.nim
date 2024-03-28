@@ -15,6 +15,8 @@ from std/paths import Path
 from std/strformat import `&`
 import std/times
 
+import zdfs
+
 import src/[actor, exports, flecs, stdx]
 from src/args import nil
 from src/core import nil
