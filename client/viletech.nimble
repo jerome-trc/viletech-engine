@@ -9,6 +9,8 @@ requires "nim == 2.0.2"
 
 import std/cmdline
 
+proc pwd(): string = getEnv("PWD")
+
 proc cFlags(): string =
     return getEnv("VTEC_LIB_DIRS") & " " &
         "--cincludes:../engine/src " &
@@ -42,7 +44,8 @@ task build_d, "Debug Executable":
         output &
         cFlags() &
         "--debuginfo --linedir:on " &
-        "cpp ./viletech.nim")
+        "-d:projectDir:" & pwd() &
+        " cpp ./viletech.nim")
 
 task build_r, "Release Executable":
     when defined(windows):

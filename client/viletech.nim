@@ -6,6 +6,9 @@ else:
 {.link: libPath.}
 {.passc: "-I./src".}
 
+const projectDir* {.strdefine.} = "."
+    ## i.e. `viletech-engine/client`.
+
 proc cMain(argc: cint, argv: cstringArray): cint {.importc.}
 
 from std/cmdline import commandLineParams, paramCount
