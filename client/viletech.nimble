@@ -7,6 +7,8 @@ skipDirs = @["tests"]
 
 requires "nim == 2.0.2"
 
+import std/cmdline
+
 proc cFlags(): string =
     return getEnv("VTEC_LIB_DIRS") & " " &
         "--cincludes:../engine/src " &
@@ -27,7 +29,14 @@ task build_d, "Debug Executable":
     else:
         const output = "-o:../build/Debug/viletech "
 
-    exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Debug --target all --")
+    let params = commandLineParams()
+
+    if params[params.len() - 1] != "--no-cmake":
+        exec("/usr/bin/cmake " &
+            "--build /home/jerome/Data/viletech-engine/build " &
+            "--config Debug --target all --")
+    else:
+        echo "Skipping CMake build..."
 
     exec("nim --nimcache:../nimcache/debug " &
         output &
@@ -41,7 +50,14 @@ task build_r, "Release Executable":
     else:
         const output = "-o:../build/Release/viletech "
 
-    exec("/usr/bin/cmake --build /home/jerome/Data/viletech-engine/build --config Release --target all --")
+    let params = commandLineParams()
+
+    if params[params.len() - 1] != "--no-cmake":
+        exec("/usr/bin/cmake " &
+            "--build /home/jerome/Data/viletech-engine/build " &
+            "--config Release --target all --")
+    else:
+        echo "Skipping CMake build..."
 
     exec("nim --nimcache:../nimcache/release " &
         output &
