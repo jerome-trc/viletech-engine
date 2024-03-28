@@ -9,8 +9,6 @@ else:
 const projectDir* {.strdefine.} = "."
     ## i.e. `viletech-engine/client`.
 
-proc cMain(argc: cint, argv: cstringArray): cint {.importc.}
-
 from std/cmdline import commandLineParams, paramCount
 from std/parseopt import initOptParser, getopt
 from std/os import nil
@@ -25,9 +23,16 @@ from src/args import nil
 from src/core import nil
 from src/platform import nil
 
+proc cMain(
+    ccx: ptr core.CCore,
+    argc: cint,
+    argv: cstringArray
+): cint {.importc.}
+
 let startTime = getTime()
 
 var cx = core.Core()
+let ccx: ref core.CCore = cx
 cx.world = initWorld()
 var clArgs = commandLineParams()
 
@@ -69,7 +74,13 @@ block:
     ecsComponent(world, Rendered)
 
 let argv = clArgs.toOpenArray(0, paramCount()).allocCStringArray()
-let ret = cMain(paramCount().cint + 1, argv)
+var ccxPtr: ptr core.CCore = nil
+
+for field in fields(ccx[]):
+    ccxPtr = cast[ptr core.CCore](field.addr)
+    break
+
+let ret = cMain(ccxPtr, paramCount().cint + 1, argv)
 
 #[
 
@@ -85,6 +96,7 @@ cSetProcessPriority()
 cPreInitGraphics()
 
 cDoomMain()
+
 ]#
 
 let uptime = startTime.elapsed()

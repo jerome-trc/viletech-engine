@@ -79,6 +79,8 @@
 #include "dsda/wad_stats.h"
 #include "dsda/zipfile.h"
 
+#include "viletech.nim.h"
+
 /* Most of the following has been rewritten by Lee Killough
  *
  * killough 4/13/98: Make clock rate adjustable by scale factor
@@ -256,8 +258,10 @@ dboolean streq(const char* a, const char* b) {
 	return strcmp(a, b) == 0;
 }
 
-int cMain(int argc, char **argv)
+int cMain(n_CCore* cx, int argc, char **argv)
 {
+    (void)cx;
+
   dsda_ParseCommandLineArgs(argc, argv);
 
   if (dsda_Flag(dsda_arg_verbose))

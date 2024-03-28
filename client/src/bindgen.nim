@@ -125,6 +125,8 @@ proc exportTypeC(sym: NimNode): string =
             result = sym.getSeqName()
         else:
             error(&"Unexpected bracket expression {sym[0].repr}[")
+    elif sym.kind == nnkPtrTy:
+        result = &"$pfx_{sym[0].repr}*"
     else:
         result =
             case sym.repr:
@@ -204,7 +206,7 @@ proc exportEnumC(sym: NimNode) =
         of 8: "uint64_t"
         else: error(&"enum size cannot be handled: {enumSize}"); ""
 
-    constants.add(&"typedef {underlying} {sym.repr};\n\n")
+    constants.add(&"typedef {underlying} $pfx_{sym.repr};\n\n")
     constants.add("enum {\n")
 
     for i, entry in sym.getImpl()[2][1 .. ^1]:
@@ -287,18 +289,38 @@ proc exportObjectC(sym: NimNode, constructor: NimNode) =
 
     typeDefs.add &"typedef struct $pfx_{renameObject(objName)} " & "{\n"
 
-    for identDefs in sym.getImpl()[2][0][2]:
-        for property in identDefs[0 .. ^3]:
-            typeDefs.add(&"  {exportTypeC(identDefs[^2], renameObject(property[1].repr))};\n")
+    let objectTy = sym.getImpl()[2]
+    let recList = objectTy[2]
 
-    typeDefs.add("} " & &"$pfx_{renameObject(objName)};\n\n")
+    for identDefs in recList:
+        echo identDefs.treeRepr
+        for property in identDefs[0 .. ^3]:
+            if property.kind == nnkPostfix:
+                typeDefs.add(&"    {exportTypeC(identDefs[^2], renameObject(property[1].repr))};\n")
+            else:
+                typeDefs.add(&"    {exportTypeC(identDefs[^2])} ")
+
+                for child in identDefs:
+                    if child.kind == nnkIdent:
+                        typeDefs.add(&"{renameObject(child.repr)}, ");
+
+                typeDefs.removeSuffix(", ")
+                typeDefs.add(";\n")
+                break
+
+    typeDefs.add(&"}} $pfx_{renameObject(objName)};\n\n")
+
+    return
 
     if constructor != nil:
         exportProcC(constructor)
     else:
         procs.add(&"$pfx_{renameObject(objName)} $pfx_init{renameObject(objName)}(")
 
-        for identDefs in sym.getImpl()[2][0][2]:
+        let objectTy = sym.getImpl()[2]
+        let recList = objectTy[2]
+
+        for identDefs in recList:
             for property in identDefs[0 .. ^3]:
                 procs.add &"{exportTypeC(identDefs[^2], toSnakeCase(property[1].repr))}, "
 

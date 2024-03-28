@@ -5,7 +5,7 @@ when defined(nimHasUsed):
 
 import bindgen
 
-import ./[actor, core, engine, flecs, platform]
+import ./[actor, core, flecs, platform]
 
 exportConsts:
     baseScreenWidth
@@ -16,7 +16,7 @@ exportEnums:
 exportFlagsets:
     SpaceFlag
 
-exportObject Core:
+exportObject CCore:
     discard
 
 exportOpaque:
