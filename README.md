@@ -2,6 +2,11 @@
 
 A fork of [dsda-doom](https://github.com/kraflab/dsda-doom).
 
+## Subtrees
+
+VileTech manages its dependencies using Git subtrees:
+- `/zdfs` -> https://github.com/jerome-trc/zdfs.git (`master` branch)
+
 ## Licensing
 
 A complete list of attributions and other third-party licensing information can be found [here](/attrib.md).
