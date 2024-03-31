@@ -491,6 +491,7 @@ cfg_input_def_t input_defs[] = {
   INPUT_SETTING("input_command_display", dsda_input_command_display, 0, -1, -1),
   INPUT_SETTING("input_strict_mode", dsda_input_strict_mode, 0, -1, -1),
   INPUT_SETTING("input_console", dsda_input_console, 0, -1, -1),
+  INPUT_SETTING("input_musplayer", dsda_input_musplayer, 0, -1, -1),
   INPUT_SETTING("input_coordinate_display", dsda_input_coordinate_display, 0, -1, -1),
   INPUT_SETTING("input_fps", dsda_input_fps, 0, -1, -1),
   INPUT_SETTING("input_avj", dsda_input_avj, 0, -1, -1),
