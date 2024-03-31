@@ -119,8 +119,6 @@
 #include "i_capture.h"
 #include "i_glob.h"
 
-#include "viletech.rs.h"
-
 static void D_PageDrawer(void);
 
 // jff 1/24/98 add new versions of these variables to remember command line
