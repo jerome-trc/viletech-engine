@@ -288,7 +288,7 @@ const char* I_GetTempDir(void)
 // cph - V.Aguilar (5/30/99) suggested return ~/.lxdoom/, creating
 //  if non-existant
 // cph 2006/07/23 - give prboom+ its own dir
-static const char prboom_dir[] = {"/.dsda-doom"}; // Mead rem extra slash 8/21/03
+static const char data_dir[] = {"/.rat-doom"}; // Mead rem extra slash 8/21/03
 
 const char *I_DoomExeDir(void)
 {
@@ -298,11 +298,11 @@ const char *I_DoomExeDir(void)
     char *home = M_getenv("HOME");
     size_t len = strlen(home);
 
-    base = Z_Malloc(len + strlen(prboom_dir) + 1);
+    base = Z_Malloc(len + strlen(data_dir) + 1);
     strcpy(base, home);
     // I've had trouble with trailing slashes before...
     if (base[len-1] == '/') base[len-1] = 0;
-    strcat(base, prboom_dir);
+    strcat(base, data_dir);
     M_MakeDir(base, true); // Make sure it exists
   }
   return base;
