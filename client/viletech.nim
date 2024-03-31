@@ -99,7 +99,7 @@ cDoomMain()
 
 ]#
 
-let uptime = startTime.elapsed()
-echo(&"Engine uptime: {uptime.inHours()}:{uptime.inMinutes()}:{uptime.inSeconds()}")
+let uptime = startTime.elapsed().hoursMinsSecs()
+echo(&"Engine uptime: {uptime.hours:02}:{uptime.mins:02}:{uptime.secs:02}")
 
 quit(ret)
