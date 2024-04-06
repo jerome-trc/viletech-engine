@@ -293,7 +293,6 @@ proc exportObjectC(sym: NimNode, constructor: NimNode) =
     let recList = objectTy[2]
 
     for identDefs in recList:
-        echo identDefs.treeRepr
         for property in identDefs[0 .. ^3]:
             if property.kind == nnkPostfix:
                 typeDefs.add(&"    {exportTypeC(identDefs[^2], renameObject(property[1].repr))};\n")
