@@ -2,7 +2,10 @@
 //!
 //! The interface via which an end user plays games on the VileTech Engine.
 
-use std::{ffi::{c_char, c_int, CString}, path::PathBuf, process::ExitCode};
+use std::{
+	ffi::{c_char, c_int, CString},
+	process::ExitCode,
+};
 
 mod actor;
 mod icon;
@@ -35,14 +38,7 @@ This program comes with ABSOLUTELY NO WARRANTY.
 
 This is free software, and you are welcome to redistribute it under certain
 conditions. See the license document that comes with your installation.")]
-pub(crate) struct LaunchArgs {
-	/// Use original dsda-doom code for demo compatibility.
-	#[arg(short, long)]
-	legacy: bool,
-	/// e.g. DOOM.WAD, DOOM2.WAD, TNT.WAD, PLUTONIA.WAD, freedoom1.wad, freedoom2.wad...
-	#[arg(short, long)]
-	iwad: PathBuf,
-}
+pub(crate) struct LaunchArgs {}
 
 fn main() -> ExitCode {
 	let args = std::env::args();
