@@ -6,6 +6,7 @@ when defined(nimHasUsed):
 import bindgen
 
 import ./[actor, core, flecs, platform]
+import ../[wasmtime]
 
 exportConsts:
     baseScreenWidth
@@ -20,6 +21,7 @@ exportObject CCore:
     discard
 
 exportOpaque:
+    WasmEngine
     World
 
 exportProcs:

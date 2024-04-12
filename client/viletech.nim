@@ -1,3 +1,19 @@
+from std/cmdline import commandLineParams, paramCount
+from std/envvars import getEnv
+from std/parseopt import initOptParser, getopt
+from std/os import nil
+from std/paths import Path
+from std/strformat import `&`
+import std/times
+
+import wasmtime
+import zdfs
+
+import src/[actor, exports, flecs, stdx]
+from src/args import nil
+from src/core import nil
+from src/platform import nil
+
 const libPath = when defined(release):
     "../build/src/Release/libviletech.a"
 else:
@@ -6,22 +22,11 @@ else:
 {.link: libPath.}
 {.passc: "-I./src".}
 
+{.link: getEnv("VTEC_WASMTIME_CLIB").}
+{.passc: "-isystem " & getEnv("VTEC_WASMTIME_INCL").}
+
 const projectDir* {.strdefine.} = "."
     ## i.e. `viletech-engine/client`.
-
-from std/cmdline import commandLineParams, paramCount
-from std/parseopt import initOptParser, getopt
-from std/os import nil
-from std/paths import Path
-from std/strformat import `&`
-import std/times
-
-import zdfs
-
-import src/[actor, exports, flecs, stdx]
-from src/args import nil
-from src/core import nil
-from src/platform import nil
 
 proc cMain(
     ccx: ptr core.CCore,
@@ -33,7 +38,12 @@ let startTime = getTime()
 
 var cx = core.Core()
 let ccx: ref core.CCore = cx
+
 cx.world = initWorld()
+cx.wasm = initWasmEngine()
+assert(cx.world != nil)
+assert(cx.wasm != nil)
+
 var clArgs = commandLineParams()
 
 var p = initOptParser(clArgs)

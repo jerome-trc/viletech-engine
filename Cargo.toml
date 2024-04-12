@@ -4,6 +4,7 @@ members = []
 default-members = []
 
 [workspace.package]
+authors = ["jerome-trc"]
 edition = "2021"
 repository = "https://github.com/jerome-trc/viletech-engine"
 

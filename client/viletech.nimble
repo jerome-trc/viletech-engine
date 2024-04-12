@@ -38,7 +38,7 @@ task build_d, "Debug Executable":
             "--build /home/jerome/Data/viletech-engine/build " &
             "--config Debug --target all --")
     else:
-        echo "Skipping CMake build..."
+        echo("Skipping CMake build...")
 
     exec("nim --nimcache:../nimcache/debug " &
         output &
@@ -60,7 +60,7 @@ task build_r, "Release Executable":
             "--build /home/jerome/Data/viletech-engine/build " &
             "--config Release --target all --")
     else:
-        echo "Skipping CMake build..."
+        echo("Skipping CMake build...")
 
     exec("nim --nimcache:../nimcache/release " &
         output &
